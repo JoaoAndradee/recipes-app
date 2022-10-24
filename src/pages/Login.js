@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Context from '../context/Context';
 import Input from '../components/Input';
 
 function Login() {
+  const {
+    email,
+    password,
+    handleEmail,
+    handlePassword,
+  } = useContext(Context);
+
   return (
     <div>
       <h3>Login</h3>
@@ -10,16 +18,16 @@ function Login() {
           name="email"
           placeholder="Email"
           type="email"
-          // value={ }
-          // onChange={}
+          value={ email }
+          onChange={ handleEmail }
           dataTestid="email-input"
         />
         <Input
           name="password"
           placeholder="Senha"
           type="password"
-          // value={ }
-          // onChange={ }
+          value={ password }
+          onChange={ handlePassword }
           dataTestid="password-input"
         />
         <button
