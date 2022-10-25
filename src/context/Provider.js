@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
@@ -27,18 +27,22 @@ function Provider({ children }) {
     setPassword(target.value);
   };
 
+  const saveUserLocalStorage = useCallback(() => {
+    localStorage.setItem('user', JSON.stringify({ email }));
+  }, [email]);
+
   const contextValue = useMemo(() => ({
     email,
     password,
     isDisabled,
     handleEmail,
     handlePassword,
+    saveUserLocalStorage,
   }), [
     email,
     password,
     isDisabled,
-    // handleEmail,
-    // handlePassword,
+    saveUserLocalStorage,
   ]);
 
   return (
