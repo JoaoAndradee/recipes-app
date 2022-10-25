@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import Input from './Input';
 import Context from '../context/Context';
 import fetchRecipes from '../services/fetchRecipes';
+import fetchDrinks from '../services/fetchDrinks';
 
 function SearchBar() {
   const {
@@ -11,6 +13,8 @@ function SearchBar() {
     searchRadio,
     setResultsSearch,
   } = useContext(Context);
+
+  const history = useHistory();
 
   return (
     <div>
@@ -53,7 +57,13 @@ function SearchBar() {
         type="button"
         data-testid="exec-search-btn"
         onClick={ async () => {
-          const result = await fetchRecipes(inputSearch, searchRadio);
+          const path = history.location.pathname;
+          let result;
+          if (path === '/meals') {
+            result = await fetchRecipes(inputSearch, searchRadio);
+            setResultsSearch(result);
+          }
+          result = await fetchDrinks(inputSearch, searchRadio);
           setResultsSearch(result);
         } }
       >

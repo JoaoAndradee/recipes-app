@@ -22,25 +22,4 @@ async function fetchRecipes(name, radio) {
   }
 }
 
-// async function FetchRecipes(name, radio) {
-//   const { teste } = useContext(Context);
-
-//   switch (radio) {
-//   case 'Ingredient':
-//     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${name}`);
-//     const data = await response.json();
-//     // console.log(data);
-//     teste(data);
-//   default:
-//     return 'teste';
-//   }
-// }
-
-// // function FetchRecipes() {
-// //   const { teste } = useContext(Context);
-// //   return (
-
-// //   )
-// // }
-
 export default fetchRecipes;
