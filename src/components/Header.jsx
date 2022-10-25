@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 function Header({
-  dataTestIdProfile,
-  dataTestIdSearch,
   title,
-  profileIcon,
-  searchIcon,
   search,
+  searchIcon,
+  profileIcon,
+  dataTestIdSearch,
+  dataTestIdProfile,
 }) {
+  const history = useHistory();
+
   return (
     <header>
       <div>
@@ -25,7 +28,10 @@ function Header({
               </button>
             )
           }
-          <button type="button">
+          <button
+            type="button"
+            onClick={ () => history.push('/profile') }
+          >
             <img
               data-testid={ dataTestIdProfile }
               src={ profileIcon }
@@ -42,21 +48,21 @@ function Header({
 }
 
 Header.propTypes = {
-  dataTestIdProfile: PropTypes.string,
-  dataTestIdSearch: PropTypes.string,
-  title: PropTypes.string,
-  profileIcon: PropTypes.string,
-  searchIcon: PropTypes.string,
   search: PropTypes.bool,
+  title: PropTypes.string,
+  searchIcon: PropTypes.string,
+  profileIcon: PropTypes.string,
+  dataTestIdSearch: PropTypes.string,
+  dataTestIdProfile: PropTypes.string,
 };
 
 Header.defaultProps = {
-  dataTestIdProfile: '',
-  dataTestIdSearch: '',
   title: '',
-  profileIcon: '',
-  searchIcon: '',
   search: '',
+  searchIcon: '',
+  profileIcon: '',
+  dataTestIdSearch: '',
+  dataTestIdProfile: '',
 };
 
 export default Header;
