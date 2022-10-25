@@ -6,6 +6,7 @@ function Login() {
   const {
     email,
     password,
+    isDisabled,
     handleEmail,
     handlePassword,
   } = useContext(Context);
@@ -33,6 +34,7 @@ function Login() {
         <button
           type="button"
           data-testid="login-submit-btn"
+          disabled={ isDisabled }
           // onClick={ }
         >
           Entrar
