@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import Context from '../context/Context';
+import Input from './Input';
 
 function Header({
   title,
@@ -10,8 +12,9 @@ function Header({
   dataTestIdSearch,
   dataTestIdProfile,
 }) {
+  const { inputSearch, handleInputSearch } = useContext(Context);
   const history = useHistory();
-
+  const [hiddenSearch, setHiddenSearch] = useState(false);
   return (
     <header>
       <div>
@@ -19,7 +22,10 @@ function Header({
           {
             search
             && (
-              <button type="button">
+              <button
+                type="button"
+                onClick={ () => setHiddenSearch(!hiddenSearch) }
+              >
                 <img
                   data-testid={ dataTestIdSearch }
                   src={ searchIcon }
@@ -38,6 +44,19 @@ function Header({
               alt="profile-icon"
             />
           </button>
+          {
+            hiddenSearch
+            && (
+              <Input
+                name="search"
+                placeholder="Procure por uma receita"
+                type="text"
+                value={ inputSearch }
+                onChange={ handleInputSearch }
+                dataTestid="search-input"
+              />
+            )
+          }
         </div>
         <div>
           <h3 data-testid="page-title">{title}</h3>
@@ -58,7 +77,7 @@ Header.propTypes = {
 
 Header.defaultProps = {
   title: '',
-  search: '',
+  search: false,
   searchIcon: '',
   profileIcon: '',
   dataTestIdSearch: '',

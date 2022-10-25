@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 
@@ -10,7 +11,7 @@ const dataTestidLoginBtn = 'login-submit-btn';
 
 describe('Testando o componente Header', () => {
   it('Verifica se o header é renderizado corretamente na rota "/meals"', () => {
-    const { history } = renderWithRouter(<App />);
+    renderWithRouter(<App />);
 
     const email = screen.getByTestId(dataTestidEmail);
     const password = screen.getByTestId(dataTestidPassword);
@@ -19,7 +20,6 @@ describe('Testando o componente Header', () => {
     userEvent.type(email, 'teste@teste.com');
     userEvent.type(password, '1234567');
     userEvent.click(button);
-    history.push('/meals');
 
     const title = screen.getByTestId('page-title');
     const searchIcon = screen.getByTestId('search-top-btn');
@@ -31,5 +31,26 @@ describe('Testando o componente Header', () => {
 
     userEvent.clear(email);
     userEvent.clear(password);
+  });
+
+  it('Verifica se ao clicar no icon profile, é redirecionado p/ pagina profile', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+
+    const iconProfile = screen.getByRole('button', { name: /profile-icon/i });
+    const iconSearch = screen.getByRole('button', { name: /search-icon/i });
+
+    userEvent.click(iconSearch);
+    const input = screen.getByTestId('search-input');
+    expect(input).toBeInTheDocument();
+    userEvent.type(input, 'xablau');
+
+    userEvent.click(iconSearch);
+    expect(input).not.toBeInTheDocument();
+
+    userEvent.click(iconProfile);
+    expect(window.location.pathname).toBe('/profile');
   });
 });

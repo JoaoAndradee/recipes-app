@@ -7,6 +7,7 @@ function Provider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const [inputSearch, setInputSearch] = useState('');
   const history = useHistory();
 
   useEffect(() => {
@@ -29,6 +30,10 @@ function Provider({ children }) {
     setPassword(target.value);
   };
 
+  const handleInputSearch = ({ target }) => {
+    setInputSearch(target.value);
+  };
+
   const btnEntrar = useCallback(() => {
     localStorage.setItem('user', JSON.stringify({ email }));
 
@@ -41,12 +46,15 @@ function Provider({ children }) {
     isDisabled,
     handleEmail,
     handlePassword,
+    handleInputSearch,
     btnEntrar,
+    inputSearch,
   }), [
     email,
     password,
     isDisabled,
     btnEntrar,
+    inputSearch,
   ]);
 
   return (
