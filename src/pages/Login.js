@@ -9,7 +9,7 @@ function Login() {
     isDisabled,
     handleEmail,
     handlePassword,
-    saveUserLocalStorage,
+    btnEntrar,
   } = useContext(Context);
 
   return (
@@ -36,7 +36,7 @@ function Login() {
           type="button"
           data-testid="login-submit-btn"
           disabled={ isDisabled }
-          onClick={ saveUserLocalStorage }
+          onClick={ btnEntrar }
         >
           Entrar
         </button>

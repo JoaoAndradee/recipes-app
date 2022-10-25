@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
@@ -6,6 +7,7 @@ function Provider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     const verifyBtn = () => {
@@ -27,9 +29,11 @@ function Provider({ children }) {
     setPassword(target.value);
   };
 
-  const saveUserLocalStorage = useCallback(() => {
+  const btnEntrar = useCallback(() => {
     localStorage.setItem('user', JSON.stringify({ email }));
-  }, [email]);
+
+    history.push('/meals');
+  }, [email, history]);
 
   const contextValue = useMemo(() => ({
     email,
@@ -37,12 +41,12 @@ function Provider({ children }) {
     isDisabled,
     handleEmail,
     handlePassword,
-    saveUserLocalStorage,
+    btnEntrar,
   }), [
     email,
     password,
     isDisabled,
-    saveUserLocalStorage,
+    btnEntrar,
   ]);
 
   return (
