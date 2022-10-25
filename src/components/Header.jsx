@@ -1,8 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import Context from '../context/Context';
-import Input from './Input';
 import SearchBar from './SearchBar';
 
 function Header({
