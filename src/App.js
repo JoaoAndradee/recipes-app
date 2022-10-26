@@ -15,10 +15,10 @@ function App() {
     <Provider>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/meals" component={ Recipes } />
-        <Route path="/drinks" component={ Recipes } />
-        <Route path="/meals/:id-da-receita" component={ RecipesDetails } />
-        <Route path="/drinks/:id-da-receita" component={ RecipesDetails } />
+        <Route exact path="/meals" component={ Recipes } />
+        <Route exact path="/drinks" component={ Recipes } />
+        <Route exact path="/meals/:id-da-receita" component={ RecipesDetails } />
+        <Route exact path="/drinks/:id-da-receita" component={ RecipesDetails } />
         <Route
           path="/meals/:id-da-receita/in-progress"
           component={ RecipesInProgress }
@@ -32,7 +32,6 @@ function App() {
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
       </Switch>
     </Provider>
-
   );
 }
 

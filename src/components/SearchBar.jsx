@@ -16,6 +16,18 @@ function SearchBar() {
 
   const history = useHistory();
 
+  const fetchClickBtn = async () => {
+    const path = history.location.pathname;
+    let result;
+    if (path === '/meals') {
+      result = await fetchRecipes(inputSearch, searchRadio);
+      setResultsSearch(result.meals);
+    } else if (path === '/drinks') {
+      result = await fetchDrinks(inputSearch, searchRadio);
+      setResultsSearch(result.drinks);
+    }
+  };
+
   return (
     <div>
       <Input
@@ -56,16 +68,7 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ async () => {
-          const path = history.location.pathname;
-          let result;
-          if (path === '/meals') {
-            result = await fetchRecipes(inputSearch, searchRadio);
-            setResultsSearch(result);
-          }
-          result = await fetchDrinks(inputSearch, searchRadio);
-          setResultsSearch(result);
-        } }
+        onClick={ fetchClickBtn }
       >
         Pesquisar
       </button>

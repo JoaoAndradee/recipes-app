@@ -5,6 +5,7 @@ async function fetchDrinks(name, radio) {
   case 'Ingredient':
     response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${name}`);
     data = await response.json();
+
     return data;
   case 'name':
     response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`);

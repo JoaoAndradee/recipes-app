@@ -24,6 +24,14 @@ function Provider({ children }) {
     verifyBtn();
   }, [email, password]);
 
+  // useEffect(() => {
+  //   if (resultsSearch.length === 2) { // === 1
+  //     const testeid = resultsSearch[0].idDrink;
+  //     console.log(resultsSearch[0].idDrink);
+  //     history.push(`/drinks/:${testeid}`);
+  //   }
+  // }, [resultsSearch, history]);
+
   const handleEmail = ({ target }) => {
     setEmail(target.value);
   };
