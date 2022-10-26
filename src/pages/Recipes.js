@@ -7,8 +7,9 @@ import searchIcon from '../images/searchIcon.svg';
 
 function Recipes({ location: { pathname } }) {
   const { resultsSearch } = useContext(Context);
-  console.log(resultsSearch);
+
   const verifyRouteMeals = pathname === '/meals';
+
   return (
     <div>
       <Header
