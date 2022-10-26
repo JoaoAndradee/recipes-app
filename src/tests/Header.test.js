@@ -51,6 +51,6 @@ describe('Testando o componente Header', () => {
     expect(input).not.toBeInTheDocument();
 
     userEvent.click(iconProfile);
-    expect(window.location.pathname).toBe('/profile');
+    expect(history.location.pathname).toBe('/profile');
   });
 });

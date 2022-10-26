@@ -37,7 +37,7 @@ describe('Testando a página de login', () => {
   });
 
   it('Verifica a rota correta ao clicar no botão de entrar', () => {
-    renderWithRouter(<App />);
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId(dataTestidEmail);
     const password = screen.getByTestId(dataTestidPassword);
@@ -48,6 +48,6 @@ describe('Testando a página de login', () => {
 
     userEvent.click(button);
 
-    expect(window.location.pathname).toBe('/meals');
+    expect(history.location.pathname).toBe('/meals');
   });
 });

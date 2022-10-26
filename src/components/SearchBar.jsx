@@ -9,7 +9,7 @@ function SearchBar() {
   const {
     inputSearch,
     handleInputSearch,
-    setSearchRadio,
+    handleSearchRadio,
     searchRadio,
     setResultsSearch,
   } = useContext(Context);
@@ -32,7 +32,7 @@ function SearchBar() {
         dataTestid="ingredient-search-radio"
         label="Ingredient"
         value="Ingredient"
-        onChange={ ({ target }) => setSearchRadio(target.value) }
+        onChange={ handleSearchRadio }
         checked={ searchRadio === 'Ingredient' }
       />
       <Input
@@ -41,7 +41,7 @@ function SearchBar() {
         dataTestid="name-search-radio"
         label="name"
         value="name"
-        onChange={ ({ target }) => setSearchRadio(target.value) }
+        onChange={ handleSearchRadio }
         checked={ searchRadio === 'name' }
       />
       <Input
@@ -50,7 +50,7 @@ function SearchBar() {
         dataTestid="first-letter-search-radio"
         label="First Letter"
         value="first-letter"
-        onChange={ ({ target }) => setSearchRadio(target.value) }
+        onChange={ handleSearchRadio }
         checked={ searchRadio === 'first-letter' }
       />
       <button

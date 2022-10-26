@@ -36,8 +36,8 @@ function Provider({ children }) {
     setInputSearch(target.value);
   };
 
-  const teste = (data) => {
-    setResultsSearch(data);
+  const handleSearchRadio = ({ target }) => {
+    setSearchRadio(target.value);
   };
 
   const btnEntrar = useCallback(() => {
@@ -54,12 +54,11 @@ function Provider({ children }) {
     handlePassword,
     handleInputSearch,
     btnEntrar,
-    setSearchRadio,
+    handleSearchRadio,
     setResultsSearch,
     inputSearch,
     searchRadio,
     resultsSearch,
-    teste,
   }), [
     email,
     password,
@@ -67,7 +66,6 @@ function Provider({ children }) {
     btnEntrar,
     inputSearch,
     searchRadio,
-    setSearchRadio,
     resultsSearch,
   ]);
 
