@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Input from './Input';
 import Context from '../context/Context';
@@ -12,9 +12,23 @@ function SearchBar() {
     handleSearchRadio,
     searchRadio,
     setResultsSearch,
+    resultsSearch,
   } = useContext(Context);
 
   const history = useHistory();
+
+  useEffect(() => {
+    if (resultsSearch.length === 1) {
+      const { location: { pathname } } = history;
+      if (pathname === '/meals') {
+        const { idMeal } = resultsSearch[0];
+        history.push(`/meals/${idMeal}`);
+      } else {
+        const { idDrink } = resultsSearch[0];
+        history.push(`/drinks/${idDrink}`);
+      }
+    }
+  }, [resultsSearch, history]);
 
   const limitedArray = (arr) => {
     const array = [];
@@ -35,6 +49,7 @@ function SearchBar() {
       if (result.meals === null) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
+
       setResultsSearch(limitedArray(result.meals));
     } else if (path === '/drinks') {
       result = await fetchDrinks(inputSearch, searchRadio);

@@ -4,15 +4,19 @@ import Header from '../components/Header';
 import profileIcon from '../images/profileIcon.svg';
 
 function Profile() {
-  // const [teste, setTeste] = useState('');
   const handleClick = () => {
     localStorage.clear();
   };
-  // useEffect(() => {
-    // const teste2 = JSON.parse(localStorage.getItem('user'));
-    // setTeste(teste2);
-    // console.log(teste2.email);
-  // }, []);
+
+  const getLocalStorage = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user !== null) {
+      const { email } = user;
+      return email;
+    }
+  };
+
+  const emailLocalStorage = getLocalStorage();
 
   return (
     <div>
@@ -21,7 +25,7 @@ function Profile() {
         title="Profile"
         profileIcon={ profileIcon }
       />
-      {/* <p data-testid="profile-email">{ teste.email }</p> */}
+      <p data-testid="profile-email">{emailLocalStorage}</p>
       <Link to="/done-recipes">
         <button
           type="button"

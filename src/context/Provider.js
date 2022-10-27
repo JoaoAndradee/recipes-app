@@ -10,6 +10,7 @@ function Provider({ children }) {
   const [inputSearch, setInputSearch] = useState('');
   const [searchRadio, setSearchRadio] = useState('Ingredient');
   const [resultsSearch, setResultsSearch] = useState([]);
+
   const history = useHistory();
 
   useEffect(() => {

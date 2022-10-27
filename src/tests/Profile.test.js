@@ -8,14 +8,16 @@ import App from '../App';
 describe('Testando a página de profile', () => {
   it('Verifica o retorno do localStorage', () => {
     const { history } = renderWithRouter(<App />);
-    const key = 'user';
-    const mock = { email: 'email@mail.com' };
-    window.localStorage.setItem(key, JSON.stringify(mock));
+
+    window.localStorage.setItem('user', JSON.stringify({ email: 'email@mail.com' }));
+
     act(() => {
       history.push('/profile');
     });
-    expect(localStorage.getItem(key)).toEqual(JSON.stringify(mock));
+
+    expect(localStorage.getItem('user')).toEqual(JSON.stringify({ email: 'email@mail.com' }));
     const logoutBtn = screen.getByRole('button', { name: /logout/i });
+
     userEvent.click(logoutBtn);
   });
 });
