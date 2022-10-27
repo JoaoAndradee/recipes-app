@@ -16,15 +16,32 @@ function SearchBar() {
 
   const history = useHistory();
 
+  const limitedArray = (arr) => {
+    const array = [];
+    const MAX_LENGTH = 12;
+    arr?.forEach((item) => {
+      if (array.length < MAX_LENGTH) {
+        array.push(item);
+      }
+    });
+    return array;
+  };
+
   const fetchClickBtn = async () => {
     const path = history.location.pathname;
     let result;
     if (path === '/meals') {
       result = await fetchRecipes(inputSearch, searchRadio);
-      setResultsSearch(result.meals);
+      if (result.meals === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+      setResultsSearch(limitedArray(result.meals));
     } else if (path === '/drinks') {
       result = await fetchDrinks(inputSearch, searchRadio);
-      setResultsSearch(result.drinks);
+      if (result.drinks === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+      setResultsSearch(limitedArray(result.drinks));
     }
   };
 
@@ -68,7 +85,10 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ fetchClickBtn }
+        onClick={ () => {
+          fetchClickBtn();
+          // checkLength();
+        } }
       >
         Pesquisar
       </button>
