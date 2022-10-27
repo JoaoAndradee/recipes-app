@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import Context from '../context/Context';
-import Input from './Input';
+import SearchBar from './SearchBar';
 
 function Header({
   title,
@@ -12,7 +11,6 @@ function Header({
   dataTestIdSearch,
   dataTestIdProfile,
 }) {
-  const { inputSearch, handleInputSearch } = useContext(Context);
   const history = useHistory();
   const [hiddenSearch, setHiddenSearch] = useState(false);
   return (
@@ -47,14 +45,9 @@ function Header({
           {
             hiddenSearch
             && (
-              <Input
-                name="search"
-                placeholder="Procure por uma receita"
-                type="text"
-                value={ inputSearch }
-                onChange={ handleInputSearch }
-                dataTestid="search-input"
-              />
+              <div>
+                <SearchBar />
+              </div>
             )
           }
         </div>

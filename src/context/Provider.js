@@ -8,6 +8,9 @@ function Provider({ children }) {
   const [password, setPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [inputSearch, setInputSearch] = useState('');
+  const [searchRadio, setSearchRadio] = useState('Ingredient');
+  const [resultsSearch, setResultsSearch] = useState([]);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -34,6 +37,10 @@ function Provider({ children }) {
     setInputSearch(target.value);
   };
 
+  const handleSearchRadio = ({ target }) => {
+    setSearchRadio(target.value);
+  };
+
   const btnEntrar = useCallback(() => {
     localStorage.setItem('user', JSON.stringify({ email }));
 
@@ -48,13 +55,19 @@ function Provider({ children }) {
     handlePassword,
     handleInputSearch,
     btnEntrar,
+    handleSearchRadio,
+    setResultsSearch,
     inputSearch,
+    searchRadio,
+    resultsSearch,
   }), [
     email,
     password,
     isDisabled,
     btnEntrar,
     inputSearch,
+    searchRadio,
+    resultsSearch,
   ]);
 
   return (
