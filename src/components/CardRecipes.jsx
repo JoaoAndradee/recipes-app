@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function CardRecipes({ index, e }) {
   const keys = Object.keys(e);
   if (keys.includes('strMeal')) {
     return (
-      <div data-testid={`${index}-recipe-card`} key={ e.idMeal }>
+      <div data-testid={ `${index}-recipe-card` } key={ e.idMeal }>
 
         <h3
           data-testid={ `${index}-card-name` }
@@ -20,7 +21,7 @@ export default function CardRecipes({ index, e }) {
     );
   }
   return (
-    <div data-testid={`${index}-recipe-card`} key={ e.idDrink }>
+    <div data-testid={ `${index}-recipe-card` } key={ e.idDrink }>
 
       <h3
         data-testid={ `${index}-card-name` }
@@ -35,3 +36,15 @@ export default function CardRecipes({ index, e }) {
     </div>
   );
 }
+
+CardRecipes.propTypes = {
+  index: PropTypes.number.isRequired,
+  e: PropTypes.shape({
+    idMeal: PropTypes.string,
+    strMeal: PropTypes.string,
+    strMealThumb: PropTypes.string,
+    idDrink: PropTypes.string,
+    strDrink: PropTypes.string,
+    strDrinkThumb: PropTypes.string,
+  }).isRequired,
+};

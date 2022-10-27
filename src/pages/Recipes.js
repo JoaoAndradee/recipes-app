@@ -10,6 +10,7 @@ function Recipes({ location: { pathname } }) {
   const { resultsSearch } = useContext(Context);
   const [initialReq, setInitialReq] = useState([]);
 
+  const limitedIndex = 12;
   const verifyRouteMeals = pathname === '/meals';
 
   const fetchFirstMeals = async () => {
@@ -29,7 +30,7 @@ function Recipes({ location: { pathname } }) {
     } else {
       fetchFirstDrinks();
     }
-  }, [resultsSearch]);
+  }, [resultsSearch, verifyRouteMeals]);
 
   return (
     <div>
@@ -80,7 +81,13 @@ function Recipes({ location: { pathname } }) {
               //     alt={ e.strDrink }
               //     data-testid={ `${index}-card-img` }
               //   />
-              <CardRecipes index={ index } e={ e } data-testid={ `${index}-recipe-card` } />
+              <CardRecipes
+                index={ index }
+                e={ e }
+                data-testid={ `${index}-recipe-card` }
+                key={ e.idDrink }
+              />
+
               // </div>
             ))
 
@@ -89,16 +96,16 @@ function Recipes({ location: { pathname } }) {
       {
         initialReq.length !== 0 && verifyRouteMeals ? (
           initialReq.map((element, index) => (
-            index >= 12 ? ('') : (
-              <CardRecipes index={ index } e={ element }/>
+            index >= limitedIndex ? ('') : (
+              <CardRecipes index={ index } e={ element } key={ element.idMeal } />
             )
           ))
-        ) 
-        : initialReq.map((element, index) => (
-          index >= 12 ? ('') : (
-            <CardRecipes index={ index } e={ element } />
-          )
-        ))
+        )
+          : initialReq.map((element, index) => (
+            index >= limitedIndex ? ('') : (
+              <CardRecipes index={ index } e={ element } key={ element.idDrink } />
+            )
+          ))
 
       }
     </div>
