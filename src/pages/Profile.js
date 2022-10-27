@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import profileIcon from '../images/profileIcon.svg';
+import Footer from './Footer';
 
 function Profile() {
   const handleClick = () => {
@@ -51,6 +52,7 @@ function Profile() {
           Logout
         </button>
       </Link>
+      <Footer />
     </div>
   );
 }
