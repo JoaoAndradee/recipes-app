@@ -1,26 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CardDetails from '../components/CardDetails';
+import CardRecommendation from '../components/CardRecommendation';
 
 function RecipeDetails() {
   const history = useHistory();
   const [recipeDetails, setRecipeDetails] = useState({});
   const [idVideo, setIdVideo] = useState('');
   const [pathMeals, setPathMeals] = useState(false);
-  const [mealsRecomendation, setMealsRecomendation] = useState([]);
-  const [drinksRecomendation, setDrinksRecomendation] = useState([]);
+  const [recommendation, setRecommendation] = useState([]);
+
+  const limitedArray = (arr) => {
+    const array = [];
+    const MAX_LENGTH = 6;
+    arr?.forEach((item) => {
+      if (array.length < MAX_LENGTH) {
+        array.push(item);
+      }
+    });
+    return array;
+  };
 
   useEffect(() => {
     const fetchsRecomendations = async () => {
-      const END_POINT_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-      const responseDrinks = await fetch(END_POINT_DRINK);
-      const resultDrinks = await responseDrinks.json();
-      setDrinksRecomendation(resultDrinks);
+      const path = history.location.pathname.split('/')[1];
+      // console.log(path);
+      // const END_POINT_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      // const responseDrinks = await fetch(END_POINT_DRINK);
+      // const resultDrinks = await responseDrinks.json();
+      // console.log(resultDrinks);
+      // setDrinksRecomendation(limitedArray(resultDrinks.drinks));
 
+      // const END_POINT_MEALS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      // const responseMeals = await fetch(END_POINT_MEALS);
+      // const resultMeals = await responseMeals.json();
+      // setMealsRecomendation(limitedArray(resultMeals.meals));
+      const END_POINT_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       const END_POINT_MEALS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-      const responseMeals = await fetch(END_POINT_MEALS);
-      const resultMeals = await responseMeals.json();
-      setMealsRecomendation(resultMeals);
+
+      const response = await fetch(path === 'meals' ? END_POINT_DRINK : END_POINT_MEALS);
+      const result = await response.json();
+      if (path === 'meals') {
+        setRecommendation(limitedArray(result.drinks));
+      } else {
+        setRecommendation(limitedArray(result.meals));
+      }
     };
     fetchsRecomendations();
   }, []);
@@ -77,6 +101,17 @@ function RecipeDetails() {
         pathMeals={ pathMeals }
         measureAndIngredient={ measureAndIngredient }
       />
+      {
+        recommendation.map((e, index) => (
+          <CardRecommendation
+            img={ e.strDrinkThumb || e.strMealThumb }
+            title={ e.strDrink || e.strMeal }
+            key={ index }
+            dataTestCard={ `${index}-recommendation-card` }
+            dataTestTitle={ `${index}-recommendation-title` }
+          />
+        ))
+      }
     </div>
   );
 }
