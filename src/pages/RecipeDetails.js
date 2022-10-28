@@ -7,6 +7,23 @@ function RecipeDetails() {
   const [recipeDetails, setRecipeDetails] = useState({});
   const [idVideo, setIdVideo] = useState('');
   const [pathMeals, setPathMeals] = useState(false);
+  const [mealsRecomendation, setMealsRecomendation] = useState([]);
+  const [drinksRecomendation, setDrinksRecomendation] = useState([]);
+
+  useEffect(() => {
+    const fetchsRecomendations = async () => {
+      const END_POINT_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      const responseDrinks = await fetch(END_POINT_DRINK);
+      const resultDrinks = await responseDrinks.json();
+      setDrinksRecomendation(resultDrinks);
+
+      const END_POINT_MEALS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      const responseMeals = await fetch(END_POINT_MEALS);
+      const resultMeals = await responseMeals.json();
+      setMealsRecomendation(resultMeals);
+    };
+    fetchsRecomendations();
+  }, []);
 
   useEffect(() => {
     const fetchRecipesDetails = async () => {
