@@ -48,25 +48,15 @@ function RecipeDetails() {
   const measureAndIngredient = arrMeasure
     .map((measure, index) => `${measure} - ${arrIngredient[index]}`);
 
-  console.log('arrMeasure => ', arrMeasure);
-  console.log('arrIngredient => ', arrIngredient);
-  console.log('final => ', measureAndIngredient);
-
   return (
     <div>
       <CardDetails
         img={ recipeDetails.strMealThumb || recipeDetails.strDrinkThumb }
-        // dataTestPhoto="recipe-photo"
         title={ recipeDetails.strMeal || recipeDetails.strDrink }
-        // dataTestTitle="recipe-title"
-        category={ recipeDetails.strCategory }
-        // dataTestCategory="recipe-category"
+        category={ pathMeals ? recipeDetails.strCategory : recipeDetails.strAlcoholic }
         ingredients={ measureAndIngredient }
-        // dataTestIngredients={ `${index}-ingredient-name-and-measure` }
         instructions={ recipeDetails.strInstructions }
-        // dataTestInstru="instructions"
         idVideo={ idVideo }
-        // dataTestIdVideo="video"
         pathMeals={ pathMeals }
         measureAndIngredient={ measureAndIngredient }
       />

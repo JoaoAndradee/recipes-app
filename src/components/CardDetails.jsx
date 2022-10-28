@@ -3,18 +3,11 @@ import PropTypes from 'prop-types';
 
 function CardDetails({
   img,
-  // dataTestPhoto,
   title,
-  // dataTestTitle,
   category,
-  // dataTestCategory,
   instructions,
-  // dataTestInstru,
   idVideo,
-  // dataTestIdVideo,
-  // dataTestIngredients,
   pathMeals,
-  // measureAndIngredient,
   measureAndIngredient,
 }) {
   return (
@@ -77,14 +70,8 @@ CardDetails.propTypes = {
   title: PropTypes.string,
   category: PropTypes.string,
   idVideo: PropTypes.string,
-  // dataTestPhoto: PropTypes.string,
-  // dataTestTitle: PropTypes.string,
-  // dataTestCategory: PropTypes.string,
-  // dataTestInstru: PropTypes.string,
   instructions: PropTypes.string,
-  // dataTestIdVideo: PropTypes.string,
-  // dataTestIngredients: PropTypes.string,
-  measureAndIngredient: PropTypes.string,
+  measureAndIngredient: PropTypes.arrayOf(PropTypes.string),
 };
 
 CardDetails.defaultProps = {
@@ -92,13 +79,8 @@ CardDetails.defaultProps = {
   title: '',
   category: '',
   idVideo: '',
-  // dataTestPhoto: '',
-  // dataTestTitle: '',
-  // dataTestCategory: '',
-  // dataTestInstru: '',
   instructions: '',
-  // dataTestIdVideo: '',
-  // dataTestIngredients: '',
+  measureAndIngredient: [''],
 };
 
 export default CardDetails;
