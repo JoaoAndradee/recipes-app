@@ -4,53 +4,47 @@ import CardDetails from '../components/CardDetails';
 
 function RecipeDetails() {
   const history = useHistory();
-  const [recipeDetails, setRecipeDetails] = useState([]);
+  const [recipeDetails, setRecipeDetails] = useState({});
   const [idVideo, setIdVideo] = useState('');
-  
-
+  const [isFetched, setIsFetched] = useState(false);
   useEffect(() => {
-    const path = history.location.pathname.split('/')[1];
-    const id = history.location.pathname.split('/')[2];
     const fetchRecipesDetails = async () => {
+      const path = history.location.pathname.split('/')[1];
+      const id = history.location.pathname.split('/')[2];
       const endPointMeals = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
       const endPointDrink = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
 
-      const result = await fetch(path === 'meals' ? endPointMeals : endPointDrink)
-        .then((response) => response.json());
-      // console.log(Object.entries(result[path][0]));
-      // setRecipeDetails(result[path][0]);
-      // const urlVideo = result[path][0];
-      // setIdVideo(urlVideo.strYoutube.split('v=')[1]);
-      return result[path][0];
+      const response = await fetch(path === 'meals' ? endPointMeals : endPointDrink);
+      const result = await response.json();
+
+      setRecipeDetails(result[path][0]);
+      setIdVideo(result[path][0].strYoutube);
+
+      if (path === 'meals') {
+        setIsFetched(true);
+      }
     };
 
-    const teste = async () => {
-      const recipe = await fetchRecipesDetails();
-      setRecipeDetails(recipe);
-    };
-    teste();
+    fetchRecipesDetails();
   }, [history]);
-  console.log(recipeDetails);
+  // console.log(recipeDetails);
   return (
     <div>
-      {
-        recipeDetails.length !== 0
-        && <CardDetails
-          img={ recipeDetails.strMealThumb || recipeDetails.strDrinkThumb }
-          dataTestPhoto="recipe-photo"
-          title={ recipeDetails.strMeal || recipeDetails.strDrink }
-          dataTestTitle="recipe-title"
-          category={ recipeDetails.strCategory }
-          dataTestCategory="recipe-category"
-          // ingredients={}
-          dataTestIngredients="0-ingredient-name-and-measure"
-          instructions={ recipeDetails.strInstructions }
-          dataTestInstru="instructions"
-          idVideo={ idVideo }
-          dataTestIdVideo="video"
-        />
-
-      }
+      <CardDetails
+        img={ recipeDetails.strMealThumb || recipeDetails.strDrinkThumb }
+        dataTestPhoto="recipe-photo"
+        title={ recipeDetails.strMeal || recipeDetails.strDrink }
+        dataTestTitle="recipe-title"
+        category={ recipeDetails.strCategory }
+        dataTestCategory="recipe-category"
+        // ingredients={}
+        dataTestIngredients="0-ingredient-name-and-measure"
+        instructions={ recipeDetails.strInstructions }
+        dataTestInstru="instructions"
+        idVideo={ idVideo }
+        dataTestIdVideo="video"
+        isFetched={ isFetched }
+      />
     </div>
   );
 }

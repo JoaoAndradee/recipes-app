@@ -13,6 +13,7 @@ function CardDetails({
   idVideo,
   dataTestIdVideo,
   dataTestIngredients,
+  isFetched,
 }) {
   return (
     <div>
@@ -43,15 +44,18 @@ function CardDetails({
       >
         {instructions}
       </p>
-      <iframe
-        data-testid={ dataTestIdVideo }
-        width="250"
-        height="205"
-        src={ `https://www.youtube.com/embed/${idVideo}` }
-        title="YouTube video player"
-        allow="accelerometer;
-        autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      />
+      {
+        isFetched
+        && <iframe
+          data-testid={ dataTestIdVideo }
+          width="250"
+          height="205"
+          src={ `https://www.youtube.com/embed/${idVideo.split('v=')[1]}` }
+          title="YouTube video player"
+          allow="accelerometer;
+          autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        />
+      }
 
     </div>
   );
@@ -59,6 +63,7 @@ function CardDetails({
 
 CardDetails.propTypes = {
   img: PropTypes.string,
+  isFetched: PropTypes.bool.isRequired,
   title: PropTypes.string,
   category: PropTypes.string,
   idVideo: PropTypes.string,
