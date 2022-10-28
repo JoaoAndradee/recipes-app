@@ -6,7 +6,8 @@ function RecipeDetails() {
   const history = useHistory();
   const [recipeDetails, setRecipeDetails] = useState({});
   const [idVideo, setIdVideo] = useState('');
-  const [isFetched, setIsFetched] = useState(false);
+  const [pathMeals, setPathMeals] = useState(false);
+
   useEffect(() => {
     const fetchRecipesDetails = async () => {
       const path = history.location.pathname.split('/')[1];
@@ -21,29 +22,53 @@ function RecipeDetails() {
       setIdVideo(result[path][0].strYoutube);
 
       if (path === 'meals') {
-        setIsFetched(true);
+        setPathMeals(true);
       }
     };
 
     fetchRecipesDetails();
   }, [history]);
-  // console.log(recipeDetails);
+
+  const getMeasureAndIngredient = (param) => {
+    const arrKeyAndValue = Object.entries(recipeDetails);
+    const arrFiltered = [];
+    arrKeyAndValue.forEach((item) => {
+      const verifyItems = item[0]
+        .includes(param) && item[1] !== null && item[1] !== ' ' && item[1] !== '';
+      if (verifyItems) {
+        arrFiltered.push(item[1]);
+      }
+      return arrFiltered;
+    });
+    return arrFiltered;
+  };
+
+  const arrMeasure = getMeasureAndIngredient('strMeasure');
+  const arrIngredient = getMeasureAndIngredient('strIngredient');
+  const measureAndIngredient = arrMeasure
+    .map((measure, index) => `${measure} - ${arrIngredient[index]}`);
+
+  console.log('arrMeasure => ', arrMeasure);
+  console.log('arrIngredient => ', arrIngredient);
+  console.log('final => ', measureAndIngredient);
+
   return (
     <div>
       <CardDetails
         img={ recipeDetails.strMealThumb || recipeDetails.strDrinkThumb }
-        dataTestPhoto="recipe-photo"
+        // dataTestPhoto="recipe-photo"
         title={ recipeDetails.strMeal || recipeDetails.strDrink }
-        dataTestTitle="recipe-title"
+        // dataTestTitle="recipe-title"
         category={ recipeDetails.strCategory }
-        dataTestCategory="recipe-category"
-        // ingredients={}
-        dataTestIngredients="0-ingredient-name-and-measure"
+        // dataTestCategory="recipe-category"
+        ingredients={ measureAndIngredient }
+        // dataTestIngredients={ `${index}-ingredient-name-and-measure` }
         instructions={ recipeDetails.strInstructions }
-        dataTestInstru="instructions"
+        // dataTestInstru="instructions"
         idVideo={ idVideo }
-        dataTestIdVideo="video"
-        isFetched={ isFetched }
+        // dataTestIdVideo="video"
+        pathMeals={ pathMeals }
+        measureAndIngredient={ measureAndIngredient }
       />
     </div>
   );

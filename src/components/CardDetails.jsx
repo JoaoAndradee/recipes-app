@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 
 function CardDetails({
   img,
-  dataTestPhoto,
+  // dataTestPhoto,
   title,
-  dataTestTitle,
+  // dataTestTitle,
   category,
-  dataTestCategory,
+  // dataTestCategory,
   instructions,
-  dataTestInstru,
+  // dataTestInstru,
   idVideo,
-  dataTestIdVideo,
-  dataTestIngredients,
-  isFetched,
+  // dataTestIdVideo,
+  // dataTestIngredients,
+  pathMeals,
+  // measureAndIngredient,
+  measureAndIngredient,
 }) {
   return (
     <div>
@@ -21,33 +23,41 @@ function CardDetails({
         <img
           src={ img }
           alt=""
-          data-testid={ dataTestPhoto }
+          data-testid="recipe-photo"
           width="250"
         />
         <h3
-          data-testid={ dataTestTitle }
+          data-testid="recipe-title"
         >
           {title}
         </h3>
       </div>
       <p
-        data-testid={ dataTestCategory }
+        data-testid="recipe-category"
       >
         {category}
       </p>
-      <ul data-testid={ dataTestIngredients }>
-        <li>ingredientes</li>
-        <li>quantidade</li>
+      <ul>
+        {
+          measureAndIngredient.map((item, index) => (
+            <li
+              key={ item }
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {item}
+            </li>
+          ))
+        }
       </ul>
       <p
-        data-testid={ dataTestInstru }
+        data-testid="instructions"
       >
         {instructions}
       </p>
       {
-        isFetched
+        pathMeals
         && <iframe
-          data-testid={ dataTestIdVideo }
+          data-testid="video"
           width="250"
           height="205"
           src={ `https://www.youtube.com/embed/${idVideo.split('v=')[1]}` }
@@ -63,17 +73,18 @@ function CardDetails({
 
 CardDetails.propTypes = {
   img: PropTypes.string,
-  isFetched: PropTypes.bool.isRequired,
+  pathMeals: PropTypes.bool.isRequired,
   title: PropTypes.string,
   category: PropTypes.string,
   idVideo: PropTypes.string,
-  dataTestPhoto: PropTypes.string,
-  dataTestTitle: PropTypes.string,
-  dataTestCategory: PropTypes.string,
-  dataTestInstru: PropTypes.string,
+  // dataTestPhoto: PropTypes.string,
+  // dataTestTitle: PropTypes.string,
+  // dataTestCategory: PropTypes.string,
+  // dataTestInstru: PropTypes.string,
   instructions: PropTypes.string,
-  dataTestIdVideo: PropTypes.string,
-  dataTestIngredients: PropTypes.string,
+  // dataTestIdVideo: PropTypes.string,
+  // dataTestIngredients: PropTypes.string,
+  measureAndIngredient: PropTypes.string,
 };
 
 CardDetails.defaultProps = {
@@ -81,13 +92,13 @@ CardDetails.defaultProps = {
   title: '',
   category: '',
   idVideo: '',
-  dataTestPhoto: '',
-  dataTestTitle: '',
-  dataTestCategory: '',
-  dataTestInstru: '',
+  // dataTestPhoto: '',
+  // dataTestTitle: '',
+  // dataTestCategory: '',
+  // dataTestInstru: '',
   instructions: '',
-  dataTestIdVideo: '',
-  dataTestIngredients: '',
+  // dataTestIdVideo: '',
+  // dataTestIngredients: '',
 };
 
 export default CardDetails;
