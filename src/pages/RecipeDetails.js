@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Carousel, Card, Stack } from 'react-bootstrap';
 import CardDetails from '../components/CardDetails';
 import CardRecommendation from '../components/CardRecommendation';
 import '../recipeDetailsStyles/recipeDetails.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function RecipeDetails() {
   const history = useHistory();
@@ -93,8 +95,8 @@ function RecipeDetails() {
         measureAndIngredient={ measureAndIngredient }
       />
       <div className="container-scroll">
-        <div id="slider" className="slider-container">
-          {
+        <div id="slider" className="slider-container container-fluid">
+          {/* {
             recommendation.map((e, index) => (
               <CardRecommendation
                 img={ e.strDrinkThumb || e.strMealThumb }
@@ -104,7 +106,53 @@ function RecipeDetails() {
                 dataTestTitle={ `${index}-recommendation-title` }
               />
             ))
-          }
+          } */}
+          <Carousel style={ { height: 200, border: '2px solid red' } }>
+            {recommendation.map((item, index, arrOriginal) => (
+              <Carousel.Item key={ index } style={ { height: 200 } }>
+                <Stack
+                  direction="horizontal"
+                  className="h-100 justify-content-center align-items-center"
+                  gap={ 3 }
+                  style={ { border: '1px solid green', backgroundColor: 'green' } }
+                >
+                  <Card
+                    style={ { width: '10rem', border: '1px solid pink' } }
+                    data-testid={ `${index}-recommendation-card` }
+                  >
+                    <Card.Body>
+                      <Card.Img
+                        src={ item.strDrinkThumb || item.strMealThumb }
+                        alt={ item.strDrink || item.strMeal }
+                        data-testid="recipe-photo"
+                      />
+                      <Card.Title data-testid={ `${index}-recommendation-title` }>
+                        { item.strDrink || item.strMeal }
+                      </Card.Title>
+                    </Card.Body>
+                  </Card>
+                  { index + 1 < arrOriginal.length && (
+                    <Card
+                      style={ { width: '10rem', border: '1px solid pink' } }
+                      data-testid={ `${index}-recommendation-card` }
+                    >
+                      <Card.Body>
+                        <Card.Img
+                          src={ arrOriginal[index +1].strDrinkThumb || arrOriginal[index +1].strMealThumb }
+                          alt={ arrOriginal[index +1].strDrink || arrOriginal[index +1].strMeal }
+                          data-testid="recipe-photo"
+                        />
+                        <Card.Title data-testid={ `${index}-recommendation-title` }>
+                          { arrOriginal[index +1].strDrink || arrOriginal[index +1].strMeal }
+                        </Card.Title>
+                      </Card.Body>
+                    </Card>
+                  )}
+                </Stack>
+              </Carousel.Item>
+            ))}
+            {/* {recommendation.map((e, i) => console.log(e))} */}
+          </Carousel>
         </div>
       </div>
     </div>
