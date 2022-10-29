@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 
 function CardRecommendation({ img, title, dataTestCard, dataTestTitle }) {
   return (
-    <div data-testid={ dataTestCard }>
+    <div data-testid={ dataTestCard } className="card-recommendation">
       <img
         src={ img }
         alt=""
         data-testid="recipe-photo"
-        width="100"
+        className="img-card"
       />
       <p
         data-testid={ dataTestTitle }
+        className="title-card"
       >
         {title}
       </p>

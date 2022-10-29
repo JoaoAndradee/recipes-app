@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CardDetails from '../components/CardDetails';
 import CardRecommendation from '../components/CardRecommendation';
+import '../recipeDetailsStyles/recipeDetails.css';
 
 function RecipeDetails() {
   const history = useHistory();
@@ -24,17 +25,7 @@ function RecipeDetails() {
   useEffect(() => {
     const fetchsRecomendations = async () => {
       const path = history.location.pathname.split('/')[1];
-      // console.log(path);
-      // const END_POINT_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-      // const responseDrinks = await fetch(END_POINT_DRINK);
-      // const resultDrinks = await responseDrinks.json();
-      // console.log(resultDrinks);
-      // setDrinksRecomendation(limitedArray(resultDrinks.drinks));
 
-      // const END_POINT_MEALS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-      // const responseMeals = await fetch(END_POINT_MEALS);
-      // const resultMeals = await responseMeals.json();
-      // setMealsRecomendation(limitedArray(resultMeals.meals));
       const END_POINT_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       const END_POINT_MEALS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
@@ -47,7 +38,7 @@ function RecipeDetails() {
       }
     };
     fetchsRecomendations();
-  }, []);
+  }, [history]);
 
   useEffect(() => {
     const fetchRecipesDetails = async () => {
@@ -101,17 +92,21 @@ function RecipeDetails() {
         pathMeals={ pathMeals }
         measureAndIngredient={ measureAndIngredient }
       />
-      {
-        recommendation.map((e, index) => (
-          <CardRecommendation
-            img={ e.strDrinkThumb || e.strMealThumb }
-            title={ e.strDrink || e.strMeal }
-            key={ index }
-            dataTestCard={ `${index}-recommendation-card` }
-            dataTestTitle={ `${index}-recommendation-title` }
-          />
-        ))
-      }
+      <div className="container-scroll">
+        <div id="slider" className="slider-container">
+          {
+            recommendation.map((e, index) => (
+              <CardRecommendation
+                img={ e.strDrinkThumb || e.strMealThumb }
+                title={ e.strDrink || e.strMeal }
+                key={ index }
+                dataTestCard={ `${index}-recommendation-card` }
+                dataTestTitle={ `${index}-recommendation-title` }
+              />
+            ))
+          }
+        </div>
+      </div>
     </div>
   );
 }
