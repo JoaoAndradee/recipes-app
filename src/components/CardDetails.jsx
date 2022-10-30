@@ -11,7 +11,7 @@ function CardDetails({
   measureAndIngredient,
 }) {
   return (
-    <div>
+    <div className="card-details-container">
       <div>
         <img
           src={ img }
@@ -44,6 +44,7 @@ function CardDetails({
       </ul>
       <p
         data-testid="instructions"
+        className="card-details-container"
       >
         {instructions}
       </p>
