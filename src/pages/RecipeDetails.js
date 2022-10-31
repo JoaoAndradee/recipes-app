@@ -5,13 +5,38 @@ import CardRecommendation from '../components/CardRecommendation';
 import '../recipeDetailsStyles/recipeDetails.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const mockDoneRecipesLocalStorage = [
+  {
+    id: '52771',
+    type: 'meal',
+    nationality: 'Italian',
+    category: 'Vegetarian',
+    alcoholicOrNot: '',
+    name: 'Spicy Arrabiata Penne',
+    image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+    doneDate: '23/06/2020',
+    tags: ['Pasta', 'Curry'],
+  },
+  {
+    id: '178319',
+    type: 'drink',
+    nationality: '',
+    category: 'Cocktail',
+    alcoholicOrNot: 'Alcoholic',
+    name: 'Aquamarine',
+    image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+    doneDate: '23/06/2020',
+    tags: [],
+  },
+];
+
 function RecipeDetails() {
   const history = useHistory();
   const [recipeDetails, setRecipeDetails] = useState({});
   const [idVideo, setIdVideo] = useState('');
   const [pathMeals, setPathMeals] = useState(false);
   const [recommendation, setRecommendation] = useState([]);
-
+  const [doneRecipes, setDoneRecipes] = useState(false);
   const limitedArray = (arr) => {
     const array = [];
     const MAX_LENGTH = 6;
@@ -21,6 +46,18 @@ function RecipeDetails() {
       }
     });
     return array;
+  };
+
+  const setMockLocalStorage = () => {
+    localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipesLocalStorage));
+  };
+
+  const getLocalStorage = () => {
+    const doneRecipesLocalStorage = JSON.parse(localStorage
+      .getItem('doneRecipes'));
+    if (doneRecipesLocalStorage.length) {
+      setDoneRecipes(true);
+    }
   };
 
   useEffect(() => {
@@ -39,6 +76,8 @@ function RecipeDetails() {
       }
     };
     fetchsRecomendations();
+    setMockLocalStorage();
+    getLocalStorage();
   }, [history]);
 
   useEffect(() => {
@@ -107,9 +146,18 @@ function RecipeDetails() {
         }
       </div>
       <div className="container-btn">
-        <button type="button" data-testid="start-recipe-btn" className="btn-start-recipe">
-          Start Recipe
-        </button>
+        {
+          doneRecipes
+            && (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="btn-start-recipe"
+              >
+                Start Recipe
+              </button>
+            )
+        }
       </div>
     </div>
   );
