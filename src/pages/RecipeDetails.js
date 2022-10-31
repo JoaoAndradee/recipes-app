@@ -5,29 +5,30 @@ import CardRecommendation from '../components/CardRecommendation';
 import '../recipeDetailsStyles/recipeDetails.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// caso a receita já tenha sido feita, descomentar as linhas abaixo e o btn start recipe tem que sumir
 const mockDoneRecipesLocalStorage = [
-  {
-    id: '52771',
-    type: 'meal',
-    nationality: 'Italian',
-    category: 'Vegetarian',
-    alcoholicOrNot: '',
-    name: 'Spicy Arrabiata Penne',
-    image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-    doneDate: '23/06/2020',
-    tags: ['Pasta', 'Curry'],
-  },
-  {
-    id: '178319',
-    type: 'drink',
-    nationality: '',
-    category: 'Cocktail',
-    alcoholicOrNot: 'Alcoholic',
-    name: 'Aquamarine',
-    image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-    doneDate: '23/06/2020',
-    tags: [],
-  },
+  // {
+  //   id: '52771',
+  //   type: 'meal',
+  //   nationality: 'Italian',
+  //   category: 'Vegetarian',
+  //   alcoholicOrNot: '',
+  //   name: 'Spicy Arrabiata Penne',
+  //   image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+  //   doneDate: '23/06/2020',
+  //   tags: ['Pasta', 'Curry'],
+  // },
+  // {
+  //   id: '178319',
+  //   type: 'drink',
+  //   nationality: '',
+  //   category: 'Cocktail',
+  //   alcoholicOrNot: 'Alcoholic',
+  //   name: 'Aquamarine',
+  //   image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+  //   doneDate: '23/06/2020',
+  //   tags: [],
+  // },
 ];
 
 const mockInProgressRecipes = {
@@ -41,6 +42,7 @@ const mockInProgressRecipes = {
 
 function RecipeDetails() {
   const history = useHistory();
+  const idPath = history.location.pathname.split('/')[2];
   const [recipeDetails, setRecipeDetails] = useState({});
   const [idVideo, setIdVideo] = useState('');
   const [pathMeals, setPathMeals] = useState(false);
@@ -70,16 +72,19 @@ function RecipeDetails() {
   const getDoneRecipesLocalStorage = () => {
     const doneRecipesLocalStorage = JSON.parse(localStorage
       .getItem('doneRecipes'));
-    if (doneRecipesLocalStorage.length) {
-      setDoneRecipes(true);
-    }
+
+    doneRecipesLocalStorage.map((e) => e.id === idPath && setDoneRecipes(true));
   };
 
   const getInProgressRecipes = () => {
-    const inProgressRecipesLocalStorage = Object.keys(JSON.parse(localStorage
-      .getItem('inProgressRecipes')));
+    const inProgressRecipesLocalStorage = JSON.parse(localStorage
+      .getItem('inProgressRecipes'));
+    const idsDrinksInProgress = Object.keys(inProgressRecipesLocalStorage.drinks);
+    const idsMealsInProgress = Object.keys(inProgressRecipesLocalStorage.meals);
+    const verifyDrinks = idsDrinksInProgress.some((e) => e === idPath);
+    const verifyMeals = idsMealsInProgress.some((e) => e === idPath);
 
-    if (inProgressRecipesLocalStorage.length) {
+    if (verifyDrinks || verifyMeals) {
       setInProgressRecipes(true);
     }
   };
@@ -129,10 +134,12 @@ function RecipeDetails() {
 
   const getMeasureAndIngredient = (param) => {
     const arrKeyAndValue = Object.entries(recipeDetails);
+
     const arrFiltered = [];
     arrKeyAndValue.forEach((item) => {
       const verifyItems = item[0]
         .includes(param) && item[1] !== null && item[1] !== ' ' && item[1] !== '';
+
       if (verifyItems) {
         arrFiltered.push(item[1]);
       }
@@ -141,8 +148,15 @@ function RecipeDetails() {
     return arrFiltered;
   };
 
+  const onClickStartRecipe = () => {
+    if (pathMeals) {
+      history.push('/');
+    }
+  };
+
   const arrMeasure = getMeasureAndIngredient('strMeasure');
   const arrIngredient = getMeasureAndIngredient('strIngredient');
+
   const measureAndIngredient = arrMeasure
     .map((measure, index) => `${measure} - ${arrIngredient[index]}`);
 
@@ -173,12 +187,13 @@ function RecipeDetails() {
       </div>
       <div className="container-btn">
         {
-          doneRecipes
+          !doneRecipes
             && (
               <button
                 type="button"
                 data-testid="start-recipe-btn"
                 className="btn-start-recipe"
+                onClick={ onClickStartRecipe }
               >
                 { inProgressRecipes ? 'Continue Recipe' : 'Start Recipe'}
               </button>
