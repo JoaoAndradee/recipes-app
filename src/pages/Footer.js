@@ -13,6 +13,7 @@ function Footer() {
       <input
         type="image"
         src={ drinkIcon }
+        name="drinkIcon"
         alt="drinkIcon"
         data-testid="drinks-bottom-btn"
         onClick={ () => history.push('/drinks') }
@@ -20,6 +21,7 @@ function Footer() {
       <input
         type="image"
         src={ mealIcon }
+        name="mealIcon"
         alt="mealIcon"
         data-testid="meals-bottom-btn"
         onClick={ () => history.push('/meals') }
