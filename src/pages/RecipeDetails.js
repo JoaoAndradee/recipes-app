@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import CardDetails from '../components/CardDetails';
 import CardRecommendation from '../components/CardRecommendation';
 import '../recipeDetailsStyles/recipeDetails.css';
@@ -36,13 +36,14 @@ const mockInProgressRecipes = {
     178319: [],
   },
   meals: {
-    52771: [],
+    52775: [],
   },
 };
 
 function RecipeDetails() {
   const history = useHistory();
   const idPath = history.location.pathname.split('/')[2];
+  const path = history.location.pathname;
   const [recipeDetails, setRecipeDetails] = useState({});
   const [idVideo, setIdVideo] = useState('');
   const [pathMeals, setPathMeals] = useState(false);
@@ -79,8 +80,10 @@ function RecipeDetails() {
   const getInProgressRecipes = () => {
     const inProgressRecipesLocalStorage = JSON.parse(localStorage
       .getItem('inProgressRecipes'));
+
     const idsDrinksInProgress = Object.keys(inProgressRecipesLocalStorage.drinks);
     const idsMealsInProgress = Object.keys(inProgressRecipesLocalStorage.meals);
+
     const verifyDrinks = idsDrinksInProgress.some((e) => e === idPath);
     const verifyMeals = idsMealsInProgress.some((e) => e === idPath);
 
@@ -148,11 +151,13 @@ function RecipeDetails() {
     return arrFiltered;
   };
 
-  const onClickStartRecipe = () => {
-    if (pathMeals) {
-      history.push('/');
-    }
-  };
+  // const onClickStartRecipe = () => {
+  //   // history.push(`${path}in-progress`);
+  //   history.push('/profile');
+  //   // if (path.includes('meals')) {
+  //   //   history.push(`${path}/in-progress);
+  //   // } else {}
+  // };
 
   const arrMeasure = getMeasureAndIngredient('strMeasure');
   const arrIngredient = getMeasureAndIngredient('strIngredient');
@@ -189,14 +194,13 @@ function RecipeDetails() {
         {
           !doneRecipes
             && (
-              <button
-                type="button"
+              <Link
                 data-testid="start-recipe-btn"
                 className="btn-start-recipe"
-                onClick={ onClickStartRecipe }
+                to={ `${path}/in-progress` }
               >
                 { inProgressRecipes ? 'Continue Recipe' : 'Start Recipe'}
-              </button>
+              </Link>
             )
         }
       </div>
