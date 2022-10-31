@@ -30,6 +30,15 @@ const mockDoneRecipesLocalStorage = [
   },
 ];
 
+const mockInProgressRecipes = {
+  drinks: {
+    178319: [],
+  },
+  meals: {
+    52771: [],
+  },
+};
+
 function RecipeDetails() {
   const history = useHistory();
   const [recipeDetails, setRecipeDetails] = useState({});
@@ -37,6 +46,8 @@ function RecipeDetails() {
   const [pathMeals, setPathMeals] = useState(false);
   const [recommendation, setRecommendation] = useState([]);
   const [doneRecipes, setDoneRecipes] = useState(false);
+  const [inProgressRecipes, setInProgressRecipes] = useState(false);
+
   const limitedArray = (arr) => {
     const array = [];
     const MAX_LENGTH = 6;
@@ -52,11 +63,24 @@ function RecipeDetails() {
     localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipesLocalStorage));
   };
 
+  const setMockInProgressRecipes = () => {
+    localStorage.setItem('inProgressRecipes', JSON.stringify(mockInProgressRecipes));
+  };
+
   const getDoneRecipesLocalStorage = () => {
     const doneRecipesLocalStorage = JSON.parse(localStorage
       .getItem('doneRecipes'));
     if (doneRecipesLocalStorage.length) {
       setDoneRecipes(true);
+    }
+  };
+
+  const getInProgressRecipes = () => {
+    const inProgressRecipesLocalStorage = Object.keys(JSON.parse(localStorage
+      .getItem('inProgressRecipes')));
+
+    if (inProgressRecipesLocalStorage.length) {
+      setInProgressRecipes(true);
     }
   };
 
@@ -78,6 +102,8 @@ function RecipeDetails() {
     fetchsRecomendations();
     setMockRecipesDoneLocalStorage();
     getDoneRecipesLocalStorage();
+    setMockInProgressRecipes();
+    getInProgressRecipes();
   }, [history]);
 
   useEffect(() => {
@@ -154,7 +180,7 @@ function RecipeDetails() {
                 data-testid="start-recipe-btn"
                 className="btn-start-recipe"
               >
-                Start Recipe
+                { inProgressRecipes ? 'Continue Recipe' : 'Start Recipe'}
               </button>
             )
         }
