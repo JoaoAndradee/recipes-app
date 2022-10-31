@@ -48,11 +48,11 @@ function RecipeDetails() {
     return array;
   };
 
-  const setMockLocalStorage = () => {
+  const setMockRecipesDoneLocalStorage = () => {
     localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipesLocalStorage));
   };
 
-  const getLocalStorage = () => {
+  const getDoneRecipesLocalStorage = () => {
     const doneRecipesLocalStorage = JSON.parse(localStorage
       .getItem('doneRecipes'));
     if (doneRecipesLocalStorage.length) {
@@ -76,8 +76,8 @@ function RecipeDetails() {
       }
     };
     fetchsRecomendations();
-    setMockLocalStorage();
-    getLocalStorage();
+    setMockRecipesDoneLocalStorage();
+    getDoneRecipesLocalStorage();
   }, [history]);
 
   useEffect(() => {
