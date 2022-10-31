@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderWithRouter from './helpers/renderWithRouter';
@@ -130,5 +130,61 @@ describe('Testando o componente SearchBar', () => {
     await screen.findByText(/recipesdetails/i);
 
     expect(history.location.pathname).toBe('/meals/52771');
+  });
+
+  it('testando se aparece a alert Meals', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve(oneMeal),
+    }));
+    jest.spyOn(global, 'alert');
+    global.alert.mockImplementation(() => {});
+
+    const iconSearch = screen.getByTestId(searchTestId);
+    userEvent.click(iconSearch);
+
+    const inputSearch = screen.getByTestId(inputTestId);
+    const letter = screen.getByTestId('first-letter-search-radio');
+    const btnPesquisar = screen.getByTestId(btnPesquisarTestId);
+
+    userEvent.type(inputSearch, 'Aa');
+    userEvent.click(letter);
+    userEvent.click(btnPesquisar);
+
+    await waitFor(() => {
+      expect(global.alert).toBeCalled();
+    });
+  });
+
+  it('testando se aparece a alert Drinks', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/drinks');
+    });
+
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve(oneMeal),
+    }));
+    jest.spyOn(global, 'alert');
+    global.alert.mockImplementation(() => {});
+
+    const iconSearch = screen.getByTestId(searchTestId);
+    userEvent.click(iconSearch);
+
+    const inputSearch = screen.getByTestId(inputTestId);
+    const letter = screen.getByTestId('first-letter-search-radio');
+    const btnPesquisar = screen.getByTestId(btnPesquisarTestId);
+
+    userEvent.type(inputSearch, 'Aa');
+    userEvent.click(letter);
+    userEvent.click(btnPesquisar);
+
+    await waitFor(() => {
+      expect(global.alert).toBeCalled();
+    });
   });
 });
