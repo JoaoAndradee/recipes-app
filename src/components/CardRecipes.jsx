@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function CardRecipes({ index, e }) {
+export default function CardRecipes({ index, e, test }) {
   const keys = Object.keys(e);
   if (keys.includes('strMeal')) {
     return (
-      <div data-testid={ `${index}-recipe-card` } key={ e.idMeal }>
+      <div data-testid={ `${index}-recipe-card` } key={ 'key'+e.idMeal } id={e.idMeal} test={test} >
 
         <h3
           data-testid={ `${index}-card-name` }
@@ -21,7 +21,7 @@ export default function CardRecipes({ index, e }) {
     );
   }
   return (
-    <div data-testid={ `${index}-recipe-card` } key={ e.idDrink }>
+    <div data-testid={ `${index}-recipe-card` } key={ 'key'+e.idDrink } id={e.idDrink}>
 
       <h3
         data-testid={ `${index}-card-name` }
