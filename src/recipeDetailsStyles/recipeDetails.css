@@ -1,3 +1,10 @@
+.recipe-details-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+}
+
 .container-scroll {
   display: flex;
   gap: 20px;
@@ -10,9 +17,12 @@
   max-width: 9rem;
 }
 
-.recipe-details-container {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+.container-btn {
+  width: 100vw;
+}
+
+.btn-start-recipe {
+  bottom: 0px;
+  position: fixed;
   width: 100%;
 }

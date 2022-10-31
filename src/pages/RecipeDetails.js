@@ -106,6 +106,11 @@ function RecipeDetails() {
           ))
         }
       </div>
+      <div className="container-btn">
+        <button type="button" data-testid="start-recipe-btn" className="btn-start-recipe">
+          Start Recipe
+        </button>
+      </div>
     </div>
   );
 }
