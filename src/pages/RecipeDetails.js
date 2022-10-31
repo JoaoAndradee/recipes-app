@@ -94,7 +94,6 @@ function RecipeDetails() {
         measureAndIngredient={ measureAndIngredient }
       />
       <div className="container-scroll">
-        {/* <div id="slider" className="slider-container container-fluid"> */}
         {
           recommendation.map((e, index) => (
             <CardRecommendation
