@@ -36,7 +36,7 @@ const mockInProgressRecipes = {
     178319: [],
   },
   meals: {
-    52775: [],
+    52771: [],
   },
 };
 
