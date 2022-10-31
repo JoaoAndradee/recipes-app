@@ -10,8 +10,8 @@ function Recipes({ location: { pathname } }) {
   const { setResultsSearch, resultsSearch } = useContext(Context);
   const [initialReq] = useState([]);
   const [initialReqCategory, setInitialReqCategory] = useState([]);
-  const [clickedAll, setClickedAll] = useState(false);
-  const [currentFilter, setCurrentFilter] = useState('');
+  // const [clickedAll, setClickedAll] = useState(false);
+  // const [currentFilter, setCurrentFilter] = useState('');
   const [test, setTest] = useState([]);
   // const [myState, setMyState] = useState(false);
   // const [sync, setSync] = useState(false);
@@ -33,7 +33,7 @@ function Recipes({ location: { pathname } }) {
   // }
 
   const handleFilterClickDrinks = async ({ target }) => {
-    setTest(target.innerHTML)
+    setTest(target.innerHTML);
     const req = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.innerHTML}`);
     const resultsSearchArray = [];
     const data = await req.json();
@@ -42,7 +42,7 @@ function Recipes({ location: { pathname } }) {
         if (index < limitedIndex12) { (resultsSearchArray.push(element)); }
       });
       setResultsSearch(resultsSearchArray);
-      setCurrentFilter(resultsSearchArray);
+      // setCurrentFilter(resultsSearchArray);
     }
   };
   const handleFilterClickMeals = async ({ target }) => {
@@ -55,7 +55,7 @@ function Recipes({ location: { pathname } }) {
         if (index < limitedIndex12) { (resultsSearchArray.push(element)); }
       });
       setResultsSearch(resultsSearchArray);
-      setCurrentFilter(resultsSearchArray);
+      // setCurrentFilter(resultsSearchArray);
     }
   };
 
@@ -91,8 +91,8 @@ function Recipes({ location: { pathname } }) {
       const resultsSearchArray = [];
       data.meals.forEach((element, index) => {
         if (index < limitedIndex12) {
-          resultsSearchArray.push(element)
-        };
+          resultsSearchArray.push(element);
+        }
         setResultsSearch(resultsSearchArray);
       });
     }
@@ -108,14 +108,14 @@ function Recipes({ location: { pathname } }) {
   };
 
   const getCategories = async (event) => {
-    const {target} = event;
+    const { target } = event;
     // data.meals.filter((element) => element === param)
-    if(test === target.innerHTML){
-      console.log('oi')
+    if (test === target.innerHTML) {
+      // console.log('oi');
       allInitialRecipes();
       setTest('');
     }
-  }
+  };
 
   useEffect(() => {
     if (pathname === '/meals') {
@@ -140,26 +140,17 @@ function Recipes({ location: { pathname } }) {
       <Header
         dataTestIdProfile="profile-top-btn"
         dataTestIdSearch="search-top-btn"
-        title={verifyRouteMeals ? 'Meals' : 'Drinks'}
-        profileIcon={profileIcon}
-        searchIcon={searchIcon}
+        title={ verifyRouteMeals ? 'Meals' : 'Drinks' }
+        profileIcon={ profileIcon }
+        searchIcon={ searchIcon }
         search
       />
       <button
         type="button"
         data-testid="All-category-filter"
-        onClick={async () => {
-          if (!clickedAll) {
-            setClickedAll(true);
-            allInitialRecipes();
-          }
-          if (clickedAll) {
-            setResultsSearch(currentFilter);
-            // await handleToggle();
-            setClickedAll(false);
-          }
-        }
-        }
+        onClick={ () => {
+          allInitialRecipes();
+        } }
       >
         All
       </button>
@@ -167,15 +158,13 @@ function Recipes({ location: { pathname } }) {
         Object.keys(initialReqCategory).includes('meals') && (
           initialReqCategory.meals.map((element, index) => (index < limitedIndex5 && (
             <button
-              onClick={(event) => {
+              onClick={ (event) => {
                 handleFilterClickMeals(event);
-                setClickedAll(false);
                 getCategories(event);
-              }
-              }
+              } }
               type="button"
-              key={`drinkCategoryKey${index}`}
-              data-testid={`${element.strCategory}-category-filter`}
+              key={ `drinkCategoryKey${index}` }
+              data-testid={ `${element.strCategory}-category-filter` }
             >
               {element.strCategory}
             </button>)))
@@ -185,13 +174,13 @@ function Recipes({ location: { pathname } }) {
         Object.keys(initialReqCategory).includes('drinks') && !verifyRouteMeals && (
           initialReqCategory.drinks.map((element, index) => (index < limitedIndex5 && (
             <button
-              onClick={(event)=>{
+              onClick={ (event) => {
                 handleFilterClickDrinks(event);
                 getCategories(event);
-            }}
+              } }
               type="button"
-              key={`mealCategoryKey${index}`}
-              data-testid={`${element.strCategory}-category-filter`}
+              key={ `mealCategoryKey${index}` }
+              data-testid={ `${element.strCategory}-category-filter` }
             >
               {element.strCategory}
             </button>)))
@@ -201,16 +190,21 @@ function Recipes({ location: { pathname } }) {
         verifyRouteMeals && resultsSearch.length !== 0
           ? (
             resultsSearch?.map((e, index) => (
-              <CardRecipes index={index} e={e} key={'key'+e.idMeal} test={test}/>
+              <CardRecipes
+                index={ index }
+                e={ e }
+                key={ `key${e.idMeal}` }
+                test={ test }
+              />
             ))
           )
           : (
             resultsSearch?.map((e, index) => (
               <CardRecipes
-                index={index}
-                e={e}
-                data-testid={`${index}-recipe-card`}
-                key={'key'+e.idDrink}
+                index={ index }
+                e={ e }
+                data-testid={ `${index}-recipe-card` }
+                key={ `key${e.idDrink}` }
               />
             ))
           )
@@ -219,14 +213,14 @@ function Recipes({ location: { pathname } }) {
       {
         initialReq.length !== 0 && verifyRouteMeals && resultsSearch.length === 0 ? (
           initialReq.map((element, index) => (
-            index >= limitedIndex12 ? ('') : (
-              <CardRecipes index={index} e={element} key={element.idMeal} />
+            index <= limitedIndex12 && (
+              <CardRecipes index={ index } e={ element } key={ element.idMeal } />
             )
           ))
         )
           : initialReq.map((element, index) => (
-            index >= limitedIndex12 ? ('') : (
-              <CardRecipes index={index} e={element} key={element.idDrink} />
+            index <= limitedIndex12 && (
+              <CardRecipes index={ index } e={ element } key={ element.idDrink } />
             )
           ))
 
