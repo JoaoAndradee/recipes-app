@@ -5,17 +5,27 @@ function Checkbox(props) {
   const { index, texto } = props;
   const [checkedOne, setCheckedOne] = useState(false);
 
+  const [myStyle, setMyStyle] = useState(false);
+
   const handleChangeOne = () => {
     setCheckedOne(!checkedOne);
+    setMyStyle(!myStyle);
   };
+
   return (
     <div>
       <label
+        style={ myStyle
+          ? { textDecoration: 'line-through solid rgb(0, 0, 0)' }
+          : { textDecoration: 'none' } }
         htmlFor="bela checkbox"
         data-testid={ `${index}-ingredient-step` }
       >
-        { texto }
+        <span>
+          { texto }
+        </span>
         <input
+          className="teste"
           id="bela checkbox"
           type="checkbox"
           checked={ checkedOne }
