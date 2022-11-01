@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function CardDetails({
   img,
@@ -12,6 +15,19 @@ function CardDetails({
   pathMeals,
   measureAndIngredient,
 }) {
+  const [hasCopied, setHasCopied] = useState(false);
+  const history = useHistory();
+
+  const handleCopy = () => {
+    const { location: { pathname: url } } = history;
+    copy(`http://localhost:3000${url}`);
+    setHasCopied(true);
+    const TIME = 2000;
+    setTimeout(() => {
+      setHasCopied(false);
+    }, TIME);
+  };
+
   return (
     <div className="card-details-container">
       <div>
@@ -51,9 +67,10 @@ function CardDetails({
         {instructions}
       </p>
       <div>
-        <button type="button" data-testid="share-btn">
+        <button type="button" data-testid="share-btn" onClick={ handleCopy }>
           <img src={ shareIcon } alt="" />
         </button>
+        { hasCopied && <span>Link copied!</span>}
         <button type="button" data-testid="favorite-btn">
           <img src={ whiteHeartIcon } alt="" />
         </button>
