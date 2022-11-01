@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function CardDetails({
   img,
@@ -48,6 +50,14 @@ function CardDetails({
       >
         {instructions}
       </p>
+      <div>
+        <button type="button" data-testid="share-btn">
+          <img src={ shareIcon } alt="" />
+        </button>
+        <button type="button" data-testid="favorite-btn">
+          <img src={ whiteHeartIcon } alt="" />
+        </button>
+      </div>
       {
         pathMeals
         && <iframe
