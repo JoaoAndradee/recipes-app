@@ -1,6 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-function Checkbox() {
+function Checkbox(props) {
+  const { index, texto } = props;
   const [checkedOne, setCheckedOne] = useState(false);
 
   const handleChangeOne = () => {
@@ -9,10 +11,12 @@ function Checkbox() {
   return (
     <div>
       <label
-        htmlFor="a"
+        htmlFor="bela checkbox"
         data-testid={ `${index}-ingredient-step` }
       >
+        { texto }
         <input
+          id="bela checkbox"
           type="checkbox"
           checked={ checkedOne }
           onChange={ handleChangeOne }
@@ -21,5 +25,9 @@ function Checkbox() {
     </div>
   );
 }
+
+Checkbox.propTypes = {
+  index: PropTypes.string,
+}.isRequired;
 
 export default Checkbox;
