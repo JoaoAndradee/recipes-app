@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -14,7 +15,9 @@ function CardDetails({
   idVideo,
   pathMeals,
   measureAndIngredient,
-  saveFavoriteRecipesLocalStorage,
+  addToFavorites,
+  isFavorite,
+  removeFromFavorites,
 }) {
   const [hasCopied, setHasCopied] = useState(false);
   const history = useHistory();
@@ -74,10 +77,13 @@ function CardDetails({
         { hasCopied && <span>Link copied!</span>}
         <button
           type="button"
-          data-testid="favorite-btn"
-          onClick={ saveFavoriteRecipesLocalStorage }
+          onClick={ isFavorite ? removeFromFavorites : addToFavorites }
         >
-          <img src={ whiteHeartIcon } alt="" />
+          <img
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt=""
+            data-testid="favorite-btn"
+          />
         </button>
       </div>
       {
@@ -105,7 +111,8 @@ CardDetails.propTypes = {
   idVideo: PropTypes.string,
   instructions: PropTypes.string,
   measureAndIngredient: PropTypes.arrayOf(PropTypes.string),
-  saveFavoriteRecipesLocalStorage: PropTypes.func.isRequired,
+  addToFavorites: PropTypes.func.isRequired,
+  isFavorite: PropTypes.string,
 };
 
 CardDetails.defaultProps = {
@@ -115,6 +122,7 @@ CardDetails.defaultProps = {
   idVideo: '',
   instructions: '',
   measureAndIngredient: [''],
+  isFavorite: '',
 };
 
 export default CardDetails;

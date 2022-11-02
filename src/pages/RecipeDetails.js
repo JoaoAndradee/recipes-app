@@ -50,6 +50,7 @@ function RecipeDetails() {
   const [recommendation, setRecommendation] = useState([]);
   const [doneRecipes, setDoneRecipes] = useState(false);
   const [inProgressRecipes, setInProgressRecipes] = useState(false);
+  const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favoriteRecipes')) ?? []);
 
   const limitedArray = (arr) => {
     const array = [];
@@ -69,16 +70,6 @@ function RecipeDetails() {
   const setMockInProgressRecipes = () => {
     localStorage.setItem('inProgressRecipes', JSON.stringify(mockInProgressRecipes));
   };
-
-  // const setMockFavoriteRecipesLocalStorage = () => {
-  //   localStorage.setItem('favoriteRecipes', JSON.stringify(mockFavoriteRecipes));
-  // };
-
-  // const getMockFavoriteRecipes = () => {
-  //   const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-  //   return favoriteRecipes;
-  // };
-
   const getDoneRecipesLocalStorage = () => {
     const doneRecipesLocalStorage = JSON.parse(localStorage
       .getItem('doneRecipes'));
@@ -101,9 +92,8 @@ function RecipeDetails() {
     }
   };
 
-  const saveFavoriteRecipesLocalStorage = () => {
-    // const favoritesLocalStorage = getMockFavoriteRecipes();
-
+  const addToFavorites = () => {
+    const verifyIfIsFavorited = favorites.find((e) => e.id === idPath);
     const recipe = {
       id: pathMeals ? recipeDetails.idMeal : recipeDetails.idDrink,
       type: pathMeals ? 'meal' : 'drink',
@@ -113,19 +103,20 @@ function RecipeDetails() {
       name: pathMeals ? recipeDetails.strMeal : recipeDetails.strDrink,
       image: pathMeals ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
     };
-    const favoriteLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
 
-    // const verifyFavoriteRecipes = favoriteLocalStorage.some((e) => e.id === idPath); // verifica se já está favoritado
-    // console.log(!getFavoriteLocalStorage);
-    if (!favoriteLocalStorage) {
-      localStorage
-        .setItem('favoriteRecipes', JSON.stringify([recipe]));
-    } else {
-      const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
-      localStorage
-        .setItem('favoriteRecipes', JSON.stringify([...getLocalStorage, recipe]));
+    if (!verifyIfIsFavorited) {
+      setFavorites((prev) => [...prev, recipe]);
     }
   };
+
+  const removeFromFavorites = () => {
+    const newFavorites = favorites.filter((e) => e.id !== idPath);
+    setFavorites(newFavorites);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favorites));
+  }, [favorites]);
 
   useEffect(() => {
     const fetchsRecomendations = async () => {
@@ -148,7 +139,7 @@ function RecipeDetails() {
     // setMockFavoriteRecipesLocalStorage();
     getDoneRecipesLocalStorage();
     getInProgressRecipes();
-  }, [history]);
+  }, [getDoneRecipesLocalStorage, getInProgressRecipes, history]);
 
   useEffect(() => {
     const fetchRecipesDetails = async () => {
@@ -204,7 +195,10 @@ function RecipeDetails() {
         idVideo={ idVideo }
         pathMeals={ pathMeals }
         measureAndIngredient={ measureAndIngredient }
-        saveFavoriteRecipesLocalStorage={ saveFavoriteRecipesLocalStorage }
+        addToFavorites={ addToFavorites }
+        idPath={ idPath }
+        isFavorite={ favorites.find((e) => e.id === idPath) }
+        removeFromFavorites={ removeFromFavorites }
       />
       <div className="container-scroll">
         {
