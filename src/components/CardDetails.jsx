@@ -77,6 +77,7 @@ function CardDetails({
         { hasCopied && <span>Link copied!</span>}
         <button
           type="button"
+          data-testid="botao-favorito"
           onClick={ isFavorite ? removeFromFavorites : addToFavorites }
         >
           <img
@@ -113,7 +114,7 @@ CardDetails.propTypes = {
   measureAndIngredient: PropTypes.arrayOf(PropTypes.string),
   addToFavorites: PropTypes.func.isRequired,
   removeFromFavorites: PropTypes.func.isRequired,
-  isFavorite: PropTypes.string,
+  isFavorite: PropTypes.bool,
 };
 
 CardDetails.defaultProps = {
@@ -123,7 +124,7 @@ CardDetails.defaultProps = {
   idVideo: '',
   instructions: '',
   measureAndIngredient: [''],
-  isFavorite: '',
+  isFavorite: false,
 };
 
 export default CardDetails;

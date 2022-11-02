@@ -6,30 +6,30 @@ import '../recipeDetailsStyles/recipeDetails.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // caso a receita já tenha sido feita, descomentar as linhas abaixo e o btn start recipe tem que sumir
-const mockDoneRecipesLocalStorage = [
-  // {
-  //   id: '52771',
-  //   type: 'meal',
-  //   nationality: 'Italian',
-  //   category: 'Vegetarian',
-  //   alcoholicOrNot: '',
-  //   name: 'Spicy Arrabiata Penne',
-  //   image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-  //   doneDate: '23/06/2020',
-  //   tags: ['Pasta', 'Curry'],
-  // },
-  // {
-  //   id: '178319',
-  //   type: 'drink',
-  //   nationality: '',
-  //   category: 'Cocktail',
-  //   alcoholicOrNot: 'Alcoholic',
-  //   name: 'Aquamarine',
-  //   image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-  //   doneDate: '23/06/2020',
-  //   tags: [],
-  // },
-];
+// const mockDoneRecipesLocalStorage = [
+// {
+//   id: '52771',
+//   type: 'meal',
+//   nationality: 'Italian',
+//   category: 'Vegetarian',
+//   alcoholicOrNot: '',
+//   name: 'Spicy Arrabiata Penne',
+//   image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+//   doneDate: '23/06/2020',
+//   tags: ['Pasta', 'Curry'],
+// },
+// {
+//   id: '178319',
+//   type: 'drink',
+//   nationality: '',
+//   category: 'Cocktail',
+//   alcoholicOrNot: 'Alcoholic',
+//   name: 'Aquamarine',
+//   image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+//   doneDate: '23/06/2020',
+//   tags: [],
+// },
+// ];
 
 const mockInProgressRecipes = {
   drinks: {
@@ -47,15 +47,19 @@ function RecipeDetails() {
   const [recipeDetails, setRecipeDetails] = useState({});
   const [idVideo, setIdVideo] = useState('');
   const [pathMeals, setPathMeals] = useState(false);
+  // const [recommendation, setRecommendation] = useState([{strDrinkThumb: '', strDrink: ''}]);
   const [recommendation, setRecommendation] = useState([]);
   const [doneRecipes, setDoneRecipes] = useState(false);
   const [inProgressRecipes, setInProgressRecipes] = useState(false);
   const [favorites, setFavorites] = useState(
     JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [],
   );
+  // const [favorites, setFavorites] = useState(
+  //   [{ id: '25874' }],
+  // );
 
   const setMockRecipesDoneLocalStorage = () => {
-    localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipesLocalStorage));
+    localStorage.setItem('doneRecipes', JSON.stringify([]));
   };
 
   const setMockInProgressRecipes = () => {
@@ -64,7 +68,7 @@ function RecipeDetails() {
   const getDoneRecipesLocalStorage = useCallback(() => {
     const doneRecipesLocalStorage = JSON.parse(localStorage
       .getItem('doneRecipes'));
-
+    // const doneRecipesLocalStorage = mockDoneRecipesLocalStorage;
     doneRecipesLocalStorage.map((e) => e.id === idPath && setDoneRecipes(true));
   }, [idPath]);
 
@@ -190,10 +194,10 @@ function RecipeDetails() {
         measureAndIngredient={ measureAndIngredient }
         addToFavorites={ addToFavorites }
         idPath={ idPath }
-        isFavorite={ favorites.find((e) => e.id === idPath) }
+        isFavorite={ !!favorites.find((e) => e.id === idPath) }
         removeFromFavorites={ removeFromFavorites }
       />
-      <div className="container-scroll">
+      <div className="container-scroll" data-testid="carousel">
         {
           recommendation.map((e, index) => (
             <CardRecommendation
