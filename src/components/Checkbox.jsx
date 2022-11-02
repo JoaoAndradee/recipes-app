@@ -7,7 +7,6 @@ function Checkbox(props) {
 
   const [myStyle, setMyStyle] = useState(false);
 
- \
   const handleChangeOne = () => {
     setCheckedOne(!checkedOne);
     setMyStyle(!myStyle);

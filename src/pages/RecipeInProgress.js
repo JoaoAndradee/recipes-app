@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Checkbox from '../components/Checkbox';
 import meals from '../components/MealTest';
 import drinks from '../components/DrinkTest';
@@ -58,14 +58,16 @@ function RecipesInProgress(props) {
     setDataFinish([{
       id: mealOrDrink ? dataMeals.idMeal : dataDrinks.idDrink,
       type: mealOrDrink ? 'meal' : 'drink',
-      nationality: mealOrDrink ? dataMeals.strArea : '',
-      category: mealOrDrink ? dataMeals.strCategory : dataDrinks.strCategory,
+      nationality: mealOrDrink ? (dataMeals.strArea ? dataMeals.strArea : '')
+        : (dataDrinks.strArea ? dataDrinks.strArea : ''),
+      category: mealOrDrink ? (dataMeals.strCategory ? dataMeals.strCategory : '')
+        : (dataDrinks.strCategory ? dataDrinks.strCategory : ''),
       alcoholicOrNot: mealOrDrink ? '' : dataDrinks.strAlcoholic,
       name: mealOrDrink ? dataMeals.strMeal : dataDrinks.strDrink,
       image: mealOrDrink ? dataMeals.strMealThumb : dataDrinks.strDrinkThumb,
       doneDate: date.toLocaleDateString(),
-      tags: mealOrDrink ? (dataMeals.strTags ? dataMeals.strTags : [])
-        : (dataDrinks.strTags ? dataDrinks.strTags : []),
+      tags: mealOrDrink ? (dataMeals.strTags ? [dataMeals.strTags] : [])
+        : (dataDrinks.strTags ? [dataDrinks.strTags] : []),
     }]);
   };
 
