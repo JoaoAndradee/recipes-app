@@ -70,6 +70,15 @@ function RecipeDetails() {
     localStorage.setItem('inProgressRecipes', JSON.stringify(mockInProgressRecipes));
   };
 
+  // const setMockFavoriteRecipesLocalStorage = () => {
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(mockFavoriteRecipes));
+  // };
+
+  // const getMockFavoriteRecipes = () => {
+  //   const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  //   return favoriteRecipes;
+  // };
+
   const getDoneRecipesLocalStorage = () => {
     const doneRecipesLocalStorage = JSON.parse(localStorage
       .getItem('doneRecipes'));
@@ -92,6 +101,31 @@ function RecipeDetails() {
     }
   };
 
+  const saveFavoriteRecipesLocalStorage = () => {
+    // const favoritesLocalStorage = getMockFavoriteRecipes();
+    // const verifyFavoriteRecipes = favoritesLocalStorage.some((e) => e.id === idPath); // verifica se já está favoritado
+
+    const recipe = {
+      id: pathMeals ? recipeDetails.idMeal : recipeDetails.idDrink,
+      type: pathMeals ? 'meal' : 'drink',
+      nationality: recipeDetails.strArea,
+      category: recipeDetails.strCategory,
+      alcoholicOrNot: pathMeals ? '' : recipeDetails.strAlcoholic,
+      name: pathMeals ? recipeDetails.strMeal : recipeDetails.strDrink,
+      image: pathMeals ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
+    };
+    const favoriteLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    // console.log(!getFavoriteLocalStorage);
+    if (!favoriteLocalStorage) {
+      localStorage
+        .setItem('favoriteRecipes', JSON.stringify([recipe]));
+    } else {
+      const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      localStorage
+        .setItem('favoriteRecipes', JSON.stringify([...getLocalStorage, recipe]));
+    }
+  };
+
   useEffect(() => {
     const fetchsRecomendations = async () => {
       const path = history.location.pathname.split('/')[1];
@@ -109,8 +143,9 @@ function RecipeDetails() {
     };
     fetchsRecomendations();
     setMockRecipesDoneLocalStorage();
-    getDoneRecipesLocalStorage();
     setMockInProgressRecipes();
+    // setMockFavoriteRecipesLocalStorage();
+    getDoneRecipesLocalStorage();
     getInProgressRecipes();
   }, [history]);
 
@@ -151,14 +186,6 @@ function RecipeDetails() {
     return arrFiltered;
   };
 
-  // const onClickStartRecipe = () => {
-  //   // history.push(`${path}in-progress`);
-  //   history.push('/profile');
-  //   // if (path.includes('meals')) {
-  //   //   history.push(`${path}/in-progress);
-  //   // } else {}
-  // };
-
   const arrMeasure = getMeasureAndIngredient('strMeasure');
   const arrIngredient = getMeasureAndIngredient('strIngredient');
 
@@ -176,6 +203,7 @@ function RecipeDetails() {
         idVideo={ idVideo }
         pathMeals={ pathMeals }
         measureAndIngredient={ measureAndIngredient }
+        saveFavoriteRecipesLocalStorage={ saveFavoriteRecipesLocalStorage }
       />
       <div className="container-scroll">
         {

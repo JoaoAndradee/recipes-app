@@ -14,6 +14,7 @@ function CardDetails({
   idVideo,
   pathMeals,
   measureAndIngredient,
+  saveFavoriteRecipesLocalStorage,
 }) {
   const [hasCopied, setHasCopied] = useState(false);
   const history = useHistory();
@@ -71,7 +72,11 @@ function CardDetails({
           <img src={ shareIcon } alt="" />
         </button>
         { hasCopied && <span>Link copied!</span>}
-        <button type="button" data-testid="favorite-btn">
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ saveFavoriteRecipesLocalStorage }
+        >
           <img src={ whiteHeartIcon } alt="" />
         </button>
       </div>
@@ -100,6 +105,7 @@ CardDetails.propTypes = {
   idVideo: PropTypes.string,
   instructions: PropTypes.string,
   measureAndIngredient: PropTypes.arrayOf(PropTypes.string),
+  saveFavoriteRecipesLocalStorage: PropTypes.func.isRequired,
 };
 
 CardDetails.defaultProps = {
