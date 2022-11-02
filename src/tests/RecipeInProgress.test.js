@@ -11,7 +11,7 @@ describe('Testando a página de progresso de receita', () => {
     act(() => {
       history.push('/drinks/51213/in-progress');
     });
-    const btnCheckIngredient1 = screen.getByRole('checkbox', { name: /2 oz \- hpnotiq 1 oz \- pineapple juice 1 oz \- banana liqueur/i });
+    const btnCheckIngredient1 = screen.getByRole('checkbox', { name: /2 oz hpnotiq 1 oz pineapple juice 1 oz banana liqueur/i });
     userEvent.click(btnCheckIngredient1);
   });
 });

@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Checkbox(props) {
-  const { index, texto } = props;
+  const { index, texto, qtdIngredients, notChecked } = props;
   const [checkedOne, setCheckedOne] = useState(false);
 
   const [myStyle, setMyStyle] = useState(false);
 
+ \
   const handleChangeOne = () => {
     setCheckedOne(!checkedOne);
     setMyStyle(!myStyle);
@@ -38,6 +39,7 @@ function Checkbox(props) {
 
 Checkbox.propTypes = {
   index: PropTypes.string,
+  qtdIngredients: PropTypes.string,
 }.isRequired;
 
 export default Checkbox;

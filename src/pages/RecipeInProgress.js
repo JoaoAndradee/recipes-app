@@ -1,20 +1,86 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import Checkbox from '../components/Checkbox';
 import meals from '../components/MealTest';
 import drinks from '../components/DrinkTest';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-function RecipesInProgress() {
+// [{
+//   id: id-da-receita,
+//   type: meal-ou-drink,
+//   nationality: nacionalidade-da-receita-ou-texto-vazio,
+//   category: categoria-da-receita-ou-texto-vazio,
+//   alcoholicOrNot: alcoholic-ou-non-alcoholic-ou-texto-vazio,
+//   name: nome-da-receita,
+//   image: imagem-da-receita
+// }]
+
+function RecipesInProgress(props) {
   const [dataMeals, setDataMeals] = useState([]);
   const [dataDrinks, setDataDrinks] = useState([]);
+  const [hasClicked, setHasClicked] = useState(false);
+  const [icon, setIcon] = useState(false);
+  const [dataFavorite, setDataFavorite] = useState([]);
+  const [dataFinish, setDataFinish] = useState([]);
+
+  const { checkedOne } = props;
 
   const history = useHistory();
   const { location: { pathname } } = history;
   const mealOrDrink = pathname.includes('meals');
-  // console.log(mealOrDrink);
 
   useEffect(() => { setDataMeals(meals); }, []);
   useEffect(() => { setDataDrinks(drinks); }, []);
+
+  const handleClickFavorite = () => {
+    if (!icon) {
+      setDataFavorite([{
+        id: mealOrDrink ? dataMeals.idMeal : dataDrinks.idDrink,
+        type: mealOrDrink ? 'meal' : 'drink',
+        nationality: mealOrDrink ? dataMeals.strArea : '',
+        category: mealOrDrink ? dataMeals.strCategory : dataDrinks.strCategory,
+        alcoholicOrNot: mealOrDrink ? '' : dataDrinks.strAlcoholic,
+        name: mealOrDrink ? dataMeals.strMeal : dataDrinks.strDrink,
+        image: mealOrDrink ? dataMeals.strMealThumb : dataDrinks.strDrinkThumb,
+      }]);
+      setIcon(!icon);
+      return;
+    }
+    localStorage.removeItem('favoriteRecipes');
+    setIcon(!icon);
+  };
+
+  const handleClickFinish = () => {
+    console.log(dataDrinks);
+    console.log(dataMeals);
+    const date = new Date();
+    setDataFinish([{
+      id: mealOrDrink ? dataMeals.idMeal : dataDrinks.idDrink,
+      type: mealOrDrink ? 'meal' : 'drink',
+      nationality: mealOrDrink ? dataMeals.strArea : '',
+      category: mealOrDrink ? dataMeals.strCategory : dataDrinks.strCategory,
+      alcoholicOrNot: mealOrDrink ? '' : dataDrinks.strAlcoholic,
+      name: mealOrDrink ? dataMeals.strMeal : dataDrinks.strDrink,
+      image: mealOrDrink ? dataMeals.strMealThumb : dataDrinks.strDrinkThumb,
+      doneDate: date.toLocaleDateString(),
+      tags: mealOrDrink ? (dataMeals.strTags ? dataMeals.strTags : [])
+        : (dataDrinks.strTags ? dataDrinks.strTags : []),
+    }]);
+  };
+
+  useEffect(() => {
+    if (dataFavorite.length !== 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify(dataFavorite));
+    }
+  }, [dataFavorite]);
+
+  useEffect(() => {
+    if (dataFinish.length !== 0) {
+      localStorage.setItem('doneRecipes', JSON.stringify(dataFinish));
+      history.push('/done-recipes');
+    }
+  }, [dataFinish, history]);
 
   const getMeasureAndIngredient = (param, param2) => {
     const arrKeyAndValue = Object.entries(param2);
@@ -29,6 +95,7 @@ function RecipesInProgress() {
     });
     return arrFiltered;
   };
+
   let arrMeasure;
   let arrIngredient;
   if (mealOrDrink) {
@@ -42,20 +109,7 @@ function RecipesInProgress() {
     .map((measure, index) => `${measure} - ${arrIngredient[index]}`);
 
   console.log(mealOrDrink);
-  // getMeasureAndIngredient();
-  // const measureAndIngredient = arrMeasure
-  // .map((measure, index) => `${measure} - ${arrIngredient[index]}`);
-
-  // const arrKeyAndValue2 = Object.entries(meals);
-  // const objectToArray = [];
-  // arrKeyAndValue2.forEach((item) => {
-  //   objectToArray.push(item[0]);
-  //   return objectToArray;
-  // });
-  // console.log(objectToArray);
-  // console.log(dataDrinks);
   return (
-
     <div>
       { mealOrDrink ? (
         <div>
@@ -78,9 +132,13 @@ function RecipesInProgress() {
             {
               measureAndIngredient.map((item, index) => (
                 <li key={ index }>
-                  <Checkbox index={ index } texto={ item } />
+                  <Checkbox
+                    qtdIngredients={ measureAndIngredient.length }
+                    index={ index }
+                    texto={ item }
+                    check
+                  />
                 </li>
-
               ))
             }
           </ul>
@@ -93,24 +151,35 @@ function RecipesInProgress() {
             <button
               type="button"
               data-testid="share-btn"
+              onClick={ () => {
+                navigator.clipboard
+                  .writeText(`${window.location.origin}/meals/${meals.idMeal}`);
+                setHasClicked(!hasClicked);
+              } }
             >
               Compartilhar
+              { hasClicked
+          && <span>Link copied!</span>}
             </button>
-            <button
-              type="button"
+            <input
+              type="image"
               data-testid="favorite-btn"
-            >
-              Favoritar
-            </button>
+              onClick={ handleClickFavorite }
+              src={ icon ? blackHeartIcon : whiteHeartIcon }
+              alt="teste"
+            />
             <button
               type="button"
               data-testid="finish-recipe-btn"
+              onClick={ handleClickFinish }
             >
               Finalizar
             </button>
+
           </div>
         </div>
       ) : (
+        // DRINKS ---------------------------------------------------------------------------------------------
         <div>
           <img
             src={ dataDrinks.strDrinkThumb }
@@ -131,7 +200,12 @@ function RecipesInProgress() {
             {
               measureAndIngredient.map((item2, index2) => (
                 <li key={ index2 }>
-                  <Checkbox index={ index2 } texto={ item2 } />
+                  <Checkbox
+                    qtdIngredients={ measureAndIngredient.length }
+                    index={ index2 }
+                    texto={ item2 }
+
+                  />
                 </li>
 
               ))
@@ -146,25 +220,33 @@ function RecipesInProgress() {
             <button
               type="button"
               data-testid="share-btn"
+              onClick={ () => {
+                navigator.clipboard
+                  .writeText(`${window.location.origin}/drinks/${drinks.idDrink}`);
+                setHasClicked(!hasClicked);
+              } }
             >
               Compartilhar
+              { hasClicked
+          && <span>Link copied!</span>}
             </button>
-            <button
-              type="button"
+            <input
+              type="image"
               data-testid="favorite-btn"
-            >
-              Favoritar
-            </button>
+              onClick={ handleClickFavorite }
+              src={ icon ? blackHeartIcon : whiteHeartIcon }
+              alt="teste"
+            />
             <button
               type="button"
               data-testid="finish-recipe-btn"
+              onClick={ handleClickFinish }
             >
               Finalizar
             </button>
           </div>
         </div>
       )}
-
     </div>
   );
 }
