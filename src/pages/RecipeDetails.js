@@ -103,18 +103,19 @@ function RecipeDetails() {
 
   const saveFavoriteRecipesLocalStorage = () => {
     // const favoritesLocalStorage = getMockFavoriteRecipes();
-    // const verifyFavoriteRecipes = favoritesLocalStorage.some((e) => e.id === idPath); // verifica se já está favoritado
 
     const recipe = {
       id: pathMeals ? recipeDetails.idMeal : recipeDetails.idDrink,
       type: pathMeals ? 'meal' : 'drink',
-      nationality: recipeDetails.strArea,
+      nationality: recipeDetails.strArea ?? '',
       category: recipeDetails.strCategory,
       alcoholicOrNot: pathMeals ? '' : recipeDetails.strAlcoholic,
       name: pathMeals ? recipeDetails.strMeal : recipeDetails.strDrink,
       image: pathMeals ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
     };
     const favoriteLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    // const verifyFavoriteRecipes = favoriteLocalStorage.some((e) => e.id === idPath); // verifica se já está favoritado
     // console.log(!getFavoriteLocalStorage);
     if (!favoriteLocalStorage) {
       localStorage
