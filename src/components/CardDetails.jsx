@@ -112,6 +112,7 @@ CardDetails.propTypes = {
   instructions: PropTypes.string,
   measureAndIngredient: PropTypes.arrayOf(PropTypes.string),
   addToFavorites: PropTypes.func.isRequired,
+  removeFromFavorites: PropTypes.func.isRequired,
   isFavorite: PropTypes.string,
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import CardDetails from '../components/CardDetails';
 import CardRecommendation from '../components/CardRecommendation';
@@ -50,18 +50,9 @@ function RecipeDetails() {
   const [recommendation, setRecommendation] = useState([]);
   const [doneRecipes, setDoneRecipes] = useState(false);
   const [inProgressRecipes, setInProgressRecipes] = useState(false);
-  const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favoriteRecipes')) ?? []);
-
-  const limitedArray = (arr) => {
-    const array = [];
-    const MAX_LENGTH = 6;
-    arr?.forEach((item) => {
-      if (array.length < MAX_LENGTH) {
-        array.push(item);
-      }
-    });
-    return array;
-  };
+  const [favorites, setFavorites] = useState(
+    JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [],
+  );
 
   const setMockRecipesDoneLocalStorage = () => {
     localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipesLocalStorage));
@@ -70,14 +61,14 @@ function RecipeDetails() {
   const setMockInProgressRecipes = () => {
     localStorage.setItem('inProgressRecipes', JSON.stringify(mockInProgressRecipes));
   };
-  const getDoneRecipesLocalStorage = () => {
+  const getDoneRecipesLocalStorage = useCallback(() => {
     const doneRecipesLocalStorage = JSON.parse(localStorage
       .getItem('doneRecipes'));
 
     doneRecipesLocalStorage.map((e) => e.id === idPath && setDoneRecipes(true));
-  };
+  }, [idPath]);
 
-  const getInProgressRecipes = () => {
+  const getInProgressRecipes = useCallback(() => {
     const inProgressRecipesLocalStorage = JSON.parse(localStorage
       .getItem('inProgressRecipes'));
 
@@ -90,7 +81,7 @@ function RecipeDetails() {
     if (verifyDrinks || verifyMeals) {
       setInProgressRecipes(true);
     }
-  };
+  }, [idPath]);
 
   const addToFavorites = () => {
     const verifyIfIsFavorited = favorites.find((e) => e.id === idPath);
@@ -120,41 +111,43 @@ function RecipeDetails() {
 
   useEffect(() => {
     const fetchsRecomendations = async () => {
-      const path = history.location.pathname.split('/')[1];
+      const pathSplit = history.location.pathname.split('/')[1];
 
       const END_POINT_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       const END_POINT_MEALS = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
-      const response = await fetch(path === 'meals' ? END_POINT_DRINK : END_POINT_MEALS);
+      const response = await
+      fetch(pathSplit === 'meals' ? END_POINT_DRINK : END_POINT_MEALS);
+
+      const MAX_LENGTH = 6;
       const result = await response.json();
-      if (path === 'meals') {
-        setRecommendation(limitedArray(result.drinks));
+      if (pathSplit === 'meals') {
+        setRecommendation(result.drinks.slice(0, MAX_LENGTH));
       } else {
-        setRecommendation(limitedArray(result.meals));
+        setRecommendation(result.meals.slice(0, MAX_LENGTH));
       }
     };
     fetchsRecomendations();
     setMockRecipesDoneLocalStorage();
     setMockInProgressRecipes();
-    // setMockFavoriteRecipesLocalStorage();
     getDoneRecipesLocalStorage();
     getInProgressRecipes();
   }, [getDoneRecipesLocalStorage, getInProgressRecipes, history]);
 
   useEffect(() => {
     const fetchRecipesDetails = async () => {
-      const path = history.location.pathname.split('/')[1];
+      const pathSplit = history.location.pathname.split('/')[1];
       const id = history.location.pathname.split('/')[2];
       const endPointMeals = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
       const endPointDrink = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
 
-      const response = await fetch(path === 'meals' ? endPointMeals : endPointDrink);
+      const response = await fetch(pathSplit === 'meals' ? endPointMeals : endPointDrink);
       const result = await response.json();
 
-      setRecipeDetails(result[path][0]);
-      setIdVideo(result[path][0].strYoutube);
+      setRecipeDetails(result[pathSplit][0]);
+      setIdVideo(result[pathSplit][0].strYoutube);
 
-      if (path === 'meals') {
+      if (pathSplit === 'meals') {
         setPathMeals(true);
       }
     };
