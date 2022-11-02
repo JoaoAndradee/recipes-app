@@ -1,7 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Input({ name, placeholder, type, value, onChange, dataTestid, label, checked, onClick }) {
+function Input(props) {
+  const {
+    name,
+    placeholder,
+    type,
+    value,
+    onChange,
+    dataTestid,
+    label,
+    checked,
+    onClick,
+  } = props;
+
   return (
     <div className="control">
       <label htmlFor={ name }>
@@ -33,6 +45,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
 };
 
 Input.defaultProps = {
