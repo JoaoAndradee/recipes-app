@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useContext, useEffect } from 'react';
 import Context from '../context/Context';
+// ((item, index) => hello[`Checked${index}`] = item.checked);
 
 function Checkbox(props) {
   const { index, texto } = props;
@@ -12,7 +13,7 @@ function Checkbox(props) {
   const oi = () => {
     const hello = {};
     const checkboxs = document.querySelectorAll('.teste');
-    checkboxs.forEach((item, index) => hello[`Checked${index}`] = item.checked);
+    checkboxs.forEach((item, index2) => { hello[`Checked${index2}`] = item.checked; });
     const obj = localStorage.setItem('checkeds', JSON.stringify(hello));
     setTeste(obj);
   };

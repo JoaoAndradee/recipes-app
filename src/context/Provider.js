@@ -11,6 +11,12 @@ function Provider({ children }) {
   const [searchRadio, setSearchRadio] = useState('Ingredient');
   const [resultsSearch, setResultsSearch] = useState([]);
   const [tudoTrue, setTudoTrue] = useState(true);
+  const [dataMeals, setDataMeals] = useState([]);
+  const [dataDrinks, setDataDrinks] = useState([]);
+  const [hasClicked, setHasClicked] = useState(false);
+  const [icon, setIcon] = useState(false);
+  const [dataFavorite, setDataFavorite] = useState([]);
+  const [dataFinish, setDataFinish] = useState([]);
 
   const history = useHistory();
 
@@ -52,17 +58,29 @@ function Provider({ children }) {
     email,
     password,
     isDisabled,
+    inputSearch,
+    searchRadio,
+    resultsSearch,
+    tudoTrue,
+    dataMeals,
+    dataDrinks,
+    dataFavorite,
+    hasClicked,
+    icon,
+    dataFinish,
     handleEmail,
     handlePassword,
     handleInputSearch,
     btnEntrar,
     handleSearchRadio,
     setResultsSearch,
-    inputSearch,
-    searchRadio,
-    resultsSearch,
-    tudoTrue,
+    setDataDrinks,
+    setDataMeals,
     setTudoTrue,
+    setHasClicked,
+    setIcon,
+    setDataFavorite,
+    setDataFinish,
   }), [
     email,
     password,
@@ -73,6 +91,12 @@ function Provider({ children }) {
     resultsSearch,
     tudoTrue,
     setTudoTrue,
+    dataMeals,
+    dataDrinks,
+    hasClicked,
+    icon,
+    dataFavorite,
+    dataFinish,
   ]);
 
   return (

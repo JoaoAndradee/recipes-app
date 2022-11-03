@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Checkbox from '../components/Checkbox';
 import meals from '../components/MealTest';
@@ -7,35 +7,29 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import Context from '../context/Context';
 
-// [{
-//   id: id-da-receita,
-//   type: meal-ou-drink,
-//   nationality: nacionalidade-da-receita-ou-texto-vazio,
-//   category: categoria-da-receita-ou-texto-vazio,
-//   alcoholicOrNot: alcoholic-ou-non-alcoholic-ou-texto-vazio,
-//   name: nome-da-receita,
-//   image: imagem-da-receita
-// }]
-
 function RecipesInProgress() {
-  const [dataMeals, setDataMeals] = useState([]);
-  const [dataDrinks, setDataDrinks] = useState([]);
-  const [hasClicked, setHasClicked] = useState(false);
-  const [icon, setIcon] = useState(false);
-  const [dataFavorite, setDataFavorite] = useState([]);
-  const [dataFinish, setDataFinish] = useState([]);
-  const { tudoTrue } = useContext(Context);
-
+  const {
+    tudoTrue, dataMeals, dataDrinks, dataFavorite, hasClicked, icon, dataFinish,
+    setHasClicked, setIcon, setDataFavorite, setDataFinish, setDataDrinks, setDataMeals,
+  } = useContext(Context);
   const history = useHistory();
   const { location: { pathname } } = history;
   const mealOrDrink = pathname.includes('meals');
-
   useEffect(() => { setDataMeals(meals); }, []);
   useEffect(() => { setDataDrinks(drinks); }, []);
-  // useEffect(() => {
-    
-  // }, [])
-
+  const arrTagsMeal = (dataMeals.strTags ? dataMeals.strTags.split(',') : []);
+  const arrTagsDrink = (dataDrinks.strTags ? dataDrinks.strTags.split(',') : []);
+  const arrTags = mealOrDrink ? arrTagsMeal : arrTagsDrink;
+  const arrNationalityMeal = (dataMeals.strArea ? dataMeals.strArea : '');
+  const arrNationalityDrink = (dataDrinks.strArea ? dataDrinks.strArea : '');
+  const arrNationality = mealOrDrink ? arrNationalityMeal : arrNationalityDrink;
+  function teste() {
+    const arrCategoryMeal = (dataMeals.strCategory ? dataMeals.strCategory : '');
+    const arrCategoryDrink = (dataDrinks.strCategory ? dataDrinks.strCategory : '');
+    const arrCategory = mealOrDrink ? arrCategoryMeal : arrCategoryDrink;
+    return arrCategory;
+  }
+  teste();
   const handleClickFavorite = () => {
     if (!icon) {
       setDataFavorite([{
@@ -53,21 +47,14 @@ function RecipesInProgress() {
     localStorage.removeItem('favoriteRecipes');
     setIcon(!icon);
   };
-
   useEffect(() => {
     if (tudoTrue === false) {
-      const arrTags = (mealOrDrink
-        ? (dataMeals.strTags ? dataMeals.strTags.split(',') : [])
-        : (dataDrinks.strTagss ? dataDrinks.strTagss.split(',') : []));
-      console.log(arrTags);
       const date = new Date();
       setDataFinish([{
         id: mealOrDrink ? dataMeals.idMeal : dataDrinks.idDrink,
         type: mealOrDrink ? 'meal' : 'drink',
-        nationality: mealOrDrink ? (dataMeals.strArea ? dataMeals.strArea : '')
-          : (dataDrinks.strArea ? dataDrinks.strArea : ''),
-        category: mealOrDrink ? (dataMeals.strCategory ? dataMeals.strCategory : '')
-          : (dataDrinks.strCategory ? dataDrinks.strCategory : ''),
+        nationality: arrNationality,
+        category: teste(),
         alcoholicOrNot: mealOrDrink ? '' : dataDrinks.strAlcoholic,
         name: mealOrDrink ? dataMeals.strMeal : dataDrinks.strDrink,
         image: mealOrDrink ? dataMeals.strMealThumb : dataDrinks.strDrinkThumb,
@@ -75,24 +62,24 @@ function RecipesInProgress() {
         tags: arrTags,
       }]);
     }
-  }, [tudoTrue]);
-
+  }, [
+    tudoTrue, dataDrinks.idDrink, dataDrinks.strAlcoholic, dataDrinks.strDrink,
+    dataDrinks.strDrinkThumb, dataMeals.idMeal, dataMeals.strMeal, arrTags,
+    dataMeals.strMealThumb, mealOrDrink, setDataFinish, teste, arrNationality,
+  ]);
   const handleClickFinish = () => {
     history.push('/done-recipes');
   };
-
   useEffect(() => {
     if (dataFavorite.length !== 0) {
       localStorage.setItem('favoriteRecipes', JSON.stringify(dataFavorite));
     }
   }, [dataFavorite]);
-
   useEffect(() => {
     if (dataFinish.length !== 0) {
       localStorage.setItem('doneRecipes', JSON.stringify(dataFinish));
     }
   }, [dataFinish, history]);
-
   const getMeasureAndIngredient = (param, param2) => {
     const arrKeyAndValue = Object.entries(param2);
     const arrFiltered = [];
@@ -106,7 +93,6 @@ function RecipesInProgress() {
     });
     return arrFiltered;
   };
-
   let arrMeasure;
   let arrIngredient;
   if (mealOrDrink) {
@@ -118,7 +104,6 @@ function RecipesInProgress() {
   }
   const measureAndIngredient = arrMeasure
     .map((measure, index) => `${measure} - ${arrIngredient[index]}`);
-
   console.log(mealOrDrink);
   return (
     <div>
@@ -262,5 +247,4 @@ function RecipesInProgress() {
     </div>
   );
 }
-
 export default RecipesInProgress;
