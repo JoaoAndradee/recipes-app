@@ -46,17 +46,20 @@ function SearchBar() {
     let result;
     if (path === '/meals') {
       result = await fetchRecipes(inputSearch, searchRadio);
-      if (result.meals === null) {
+      if (result === undefined || result.meals === null) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
-
-      setResultsSearch(limitedArray(result.meals));
+      if (result !== undefined) {
+        setResultsSearch(limitedArray(result.meals));
+      }
     } else if (path === '/drinks') {
       result = await fetchDrinks(inputSearch, searchRadio);
-      if (result.drinks === null) {
+      if (result === undefined || result.drinks === null) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
-      setResultsSearch(limitedArray(result.drinks));
+      if (result !== undefined) {
+        setResultsSearch(limitedArray(result.drinks));
+      }
     }
   };
 

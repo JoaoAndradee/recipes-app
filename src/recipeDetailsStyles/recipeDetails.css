@@ -1,0 +1,32 @@
+.recipe-details-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+}
+
+.container-scroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-left: 20px;
+  width: 100%;
+}
+
+.img-card {
+  max-width: 9rem;
+}
+
+.container-btn {
+  width: 100vw;
+}
+
+.btn-start-recipe {
+  background-color: red;
+  bottom: 0;
+  position: fixed;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+}
