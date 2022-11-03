@@ -8,7 +8,7 @@ import CardRecipes from '../components/CardRecipes';
 
 function Recipes({ location: { pathname } }) {
   const { setResultsSearch, resultsSearch } = useContext(Context);
-  const [initialReq] = useState([]);
+  // const [initialReq] = useState([]);
   const [initialReqCategory, setInitialReqCategory] = useState([]);
   // const [clickedAll, setClickedAll] = useState(false);
   // const [currentFilter, setCurrentFilter] = useState('');
@@ -86,6 +86,7 @@ function Recipes({ location: { pathname } }) {
     if (pathname === '/meals') {
       const req = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
       const data = await req.json();
+      console.log(data);
       const resultsSearchArray = [];
       data.meals.forEach((element, index) => {
         if (index < limitedIndex12) {
@@ -120,7 +121,7 @@ function Recipes({ location: { pathname } }) {
       // fetchFirstMeals();
       allInitialRecipes();
       fetchCategoriesMeals();
-      console.log('terminou aqui');
+      // console.log('terminou aqui');
     } else {
       // fetchFirstDrinks();
       allInitialRecipes();
@@ -209,7 +210,7 @@ function Recipes({ location: { pathname } }) {
           )
       }
 
-      {
+      {/* {
         initialReq.length !== 0 && verifyRouteMeals && resultsSearch.length === 0 ? (
           initialReq.map((element, index) => (
             index <= limitedIndex12 && (
@@ -223,7 +224,7 @@ function Recipes({ location: { pathname } }) {
             )
           ))
 
-      }
+      } */}
     </div>
   );
 }

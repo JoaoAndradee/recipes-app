@@ -3,7 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderWithRouter from './helpers/renderWithRouter';
-import mealIngredients from '../../cypress/mocks/mealIngredients';
+// import mealIngredients from '../../cypress/mocks/mealIngredients';
 import drinkIngredients from '../../cypress/mocks/drinkIngredients';
 import oneDrink from '../../cypress/mocks/oneDrink';
 import oneMeal from '../../cypress/mocks/oneMeal';
@@ -17,9 +17,9 @@ const firstLetterTesteId = 'first-letter-search-radio';
 
 describe('Testando o componente SearchBar', () => {
   it('Verifica se o fetch é feito após clicar no botão', () => {
-    global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(mealIngredients),
-    }));
+    // global.fetch = jest.fn(() => Promise.resolve({
+    //   json: () => Promise.resolve(mealIngredients),
+    // }));
 
     const { history } = renderWithRouter(<App />);
     act(() => {
@@ -79,7 +79,7 @@ describe('Testando o componente SearchBar', () => {
     userEvent.click(nameRadio);
     userEvent.click(btnPesquisar);
 
-    // expect(history.location.pathname).toBe();
+    expect(history.location.pathname).toBe();
 
     expect(fetch).toHaveBeenCalled();
   });
