@@ -51,13 +51,13 @@ describe('Testa a página Recipes.', () => {
           setTimeout(() => {
             ordinaryRecipe = screen.getByRole('heading', { name: /3-mile long island iced tea/i });
             expect(ordinaryRecipe).toBeInTheDocument();
-          }, 500)
+          }, 500);
           waitFor(() => {
             userEvent.click(allBtn);
             setTimeout(() => {
               const firstAllRecipe = screen.getByRole('heading', { name: /gg/i });
               expect(firstAllRecipe).toBeInTheDocument();
-            }, 500)
+            }, 500);
           });
         });
       });
