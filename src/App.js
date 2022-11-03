@@ -8,6 +8,8 @@ import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Provider from './context/Provider';
+import Footer from './pages/Footer';
+import './App.css';
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
       </Switch>
+      <Footer />
     </Provider>
   );
 }
