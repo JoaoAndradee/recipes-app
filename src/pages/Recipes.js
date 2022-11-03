@@ -5,6 +5,7 @@ import Context from '../context/Context';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import CardRecipes from '../components/CardRecipes';
+import Footer from './Footer';
 
 function Recipes({ location: { pathname } }) {
   const { setResultsSearch, resultsSearch } = useContext(Context);
@@ -225,6 +226,7 @@ function Recipes({ location: { pathname } }) {
           ))
 
       } */}
+      <Footer />
     </div>
   );
 }
