@@ -46,30 +46,28 @@ describe('Testa a página Recipes.', () => {
     act(() => {
       history.push('/meals');
     });
+    // await waitFor(() => {
+    // });
     await waitFor(() => {
-      // const allBtn = screen.getByRole('button', { name: /all/i });
-      // const firstCard = screen.getByRole('heading', {  name: /corba/i});
-      // const btnFilter1 = screen.getByRole('button', {  name: /beef/i});
-      // const btnFilter2 = screen.getByRole('button', {  name: /breakfast/i});
-      // const btnFilter3 = screen.getByRole('button', {  name: /chicken/i});
-      // const btnFilter4 = screen.getByRole('button', {  name: /dessert/i});
-      const btnFilter5 = screen.getByRole('button', { name: /goat/i });
-
-      // userEvent.click(firstCard);
       userEvent.click(btnFilter5);
+      const card = screen.getByRole('heading', { name: /mbuzi choma \(roasted goat\)/i });
+      userEvent.click(card);
+
+      expect(history.location.pathname).toBe('/meals/52968');
     });
-    const card = await screen.findByRole('heading', { name: /mbuzi choma \(roasted goat\)/i });
-    userEvent.click(card);
 
     await waitFor(() => {
       const btnFilter5 = screen.getByRole('button', { name: /goat/i });
       const allBtn = screen.getByRole('button', { name: /all/i });
       userEvent.click(btnFilter5);
       userEvent.click(allBtn);
+      const firstCard = screen.getByRole('heading', { name: /corba/i });
+      expect(firstCard).toBeInTheDocument();
     });
     await waitFor(() => {
       const firstCard = screen.getByRole('heading', { name: /corba/i });
       userEvent.click(firstCard);
+      expect(history.location.pathname).toBe('/meals/52977');
     });
     expect(typeof fetch).toBe('function');
   });
