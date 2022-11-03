@@ -20,7 +20,7 @@ describe('Testando a página de profile', () => {
 
     userEvent.click(logoutBtn);
   });
-  /////////
+  ///////////////////////////
   it('Verifica a página de Profile', async () => {
     const { history } = renderWithRouter(<App />);
     const emailInput = screen.getByRole('textbox');
