@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Checkbox from '../components/Checkbox';
 import meals from '../components/MealTest';
 import drinks from '../components/DrinkTest';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import Context from '../context/Context';
 
 // [{
 //   id: id-da-receita,
@@ -16,15 +17,14 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 //   image: imagem-da-receita
 // }]
 
-function RecipesInProgress(props) {
+function RecipesInProgress() {
   const [dataMeals, setDataMeals] = useState([]);
   const [dataDrinks, setDataDrinks] = useState([]);
   const [hasClicked, setHasClicked] = useState(false);
   const [icon, setIcon] = useState(false);
   const [dataFavorite, setDataFavorite] = useState([]);
   const [dataFinish, setDataFinish] = useState([]);
-
-  const { checkedOne } = props;
+  const { tudoTrue } = useContext(Context);
 
   const history = useHistory();
   const { location: { pathname } } = history;
@@ -32,6 +32,9 @@ function RecipesInProgress(props) {
 
   useEffect(() => { setDataMeals(meals); }, []);
   useEffect(() => { setDataDrinks(drinks); }, []);
+  // useEffect(() => {
+    
+  // }, [])
 
   const handleClickFavorite = () => {
     if (!icon) {
@@ -51,24 +54,31 @@ function RecipesInProgress(props) {
     setIcon(!icon);
   };
 
+  useEffect(() => {
+    if (tudoTrue === false) {
+      const arrTags = (mealOrDrink
+        ? (dataMeals.strTags ? dataMeals.strTags.split(',') : [])
+        : (dataDrinks.strTagss ? dataDrinks.strTagss.split(',') : []));
+      console.log(arrTags);
+      const date = new Date();
+      setDataFinish([{
+        id: mealOrDrink ? dataMeals.idMeal : dataDrinks.idDrink,
+        type: mealOrDrink ? 'meal' : 'drink',
+        nationality: mealOrDrink ? (dataMeals.strArea ? dataMeals.strArea : '')
+          : (dataDrinks.strArea ? dataDrinks.strArea : ''),
+        category: mealOrDrink ? (dataMeals.strCategory ? dataMeals.strCategory : '')
+          : (dataDrinks.strCategory ? dataDrinks.strCategory : ''),
+        alcoholicOrNot: mealOrDrink ? '' : dataDrinks.strAlcoholic,
+        name: mealOrDrink ? dataMeals.strMeal : dataDrinks.strDrink,
+        image: mealOrDrink ? dataMeals.strMealThumb : dataDrinks.strDrinkThumb,
+        doneDate: date.toISOString(),
+        tags: arrTags,
+      }]);
+    }
+  }, [tudoTrue]);
+
   const handleClickFinish = () => {
-    console.log(dataDrinks);
-    console.log(dataMeals);
-    const date = new Date();
-    setDataFinish([{
-      id: mealOrDrink ? dataMeals.idMeal : dataDrinks.idDrink,
-      type: mealOrDrink ? 'meal' : 'drink',
-      nationality: mealOrDrink ? (dataMeals.strArea ? dataMeals.strArea : '')
-        : (dataDrinks.strArea ? dataDrinks.strArea : ''),
-      category: mealOrDrink ? (dataMeals.strCategory ? dataMeals.strCategory : '')
-        : (dataDrinks.strCategory ? dataDrinks.strCategory : ''),
-      alcoholicOrNot: mealOrDrink ? '' : dataDrinks.strAlcoholic,
-      name: mealOrDrink ? dataMeals.strMeal : dataDrinks.strDrink,
-      image: mealOrDrink ? dataMeals.strMealThumb : dataDrinks.strDrinkThumb,
-      doneDate: date.toLocaleDateString(),
-      tags: mealOrDrink ? (dataMeals.strTags ? [dataMeals.strTags] : [])
-        : (dataDrinks.strTags ? [dataDrinks.strTags] : []),
-    }]);
+    history.push('/done-recipes');
   };
 
   useEffect(() => {
@@ -80,7 +90,6 @@ function RecipesInProgress(props) {
   useEffect(() => {
     if (dataFinish.length !== 0) {
       localStorage.setItem('doneRecipes', JSON.stringify(dataFinish));
-      history.push('/done-recipes');
     }
   }, [dataFinish, history]);
 
@@ -174,6 +183,7 @@ function RecipesInProgress(props) {
               type="button"
               data-testid="finish-recipe-btn"
               onClick={ handleClickFinish }
+              disabled={ tudoTrue }
             >
               Finalizar
             </button>
@@ -206,7 +216,6 @@ function RecipesInProgress(props) {
                     qtdIngredients={ measureAndIngredient.length }
                     index={ index2 }
                     texto={ item2 }
-
                   />
                 </li>
 
@@ -243,6 +252,7 @@ function RecipesInProgress(props) {
               type="button"
               data-testid="finish-recipe-btn"
               onClick={ handleClickFinish }
+              disabled={ tudoTrue }
             >
               Finalizar
             </button>

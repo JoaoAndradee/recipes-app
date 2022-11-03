@@ -10,6 +10,7 @@ function Provider({ children }) {
   const [inputSearch, setInputSearch] = useState('');
   const [searchRadio, setSearchRadio] = useState('Ingredient');
   const [resultsSearch, setResultsSearch] = useState([]);
+  const [tudoTrue, setTudoTrue] = useState(true);
 
   const history = useHistory();
 
@@ -60,6 +61,8 @@ function Provider({ children }) {
     inputSearch,
     searchRadio,
     resultsSearch,
+    tudoTrue,
+    setTudoTrue,
   }), [
     email,
     password,
@@ -68,6 +71,8 @@ function Provider({ children }) {
     inputSearch,
     searchRadio,
     resultsSearch,
+    tudoTrue,
+    setTudoTrue,
   ]);
 
   return (
