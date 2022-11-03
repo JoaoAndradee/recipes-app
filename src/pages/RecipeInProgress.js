@@ -62,11 +62,7 @@ function RecipesInProgress() {
         tags: arrTags,
       }]);
     }
-  }, [
-    tudoTrue, dataDrinks.idDrink, dataDrinks.strAlcoholic, dataDrinks.strDrink,
-    dataDrinks.strDrinkThumb, dataMeals.idMeal, dataMeals.strMeal, arrTags,
-    dataMeals.strMealThumb, mealOrDrink, setDataFinish, teste, arrNationality,
-  ]);
+  }, [tudoTrue]);
   const handleClickFinish = () => {
     history.push('/done-recipes');
   };
