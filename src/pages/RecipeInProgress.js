@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react'; // teste
 import { useHistory } from 'react-router-dom';
 import Checkbox from '../components/Checkbox';
 import meals from '../components/MealTest';
