@@ -23,7 +23,7 @@
 
 .btn-start-recipe {
   background-color: red;
-  bottom: 0px;
+  bottom: 0;
   position: fixed;
   text-align: center;
   text-decoration: none;
