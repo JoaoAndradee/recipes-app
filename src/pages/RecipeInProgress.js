@@ -106,7 +106,6 @@ function RecipeInProgress() {
   }
   const measureAndIngredient = arrMeasure
     .map((measure, index) => `${measure} - ${arrIngredient[index]}`);
-  console.log(mealOrDrink);
   return (
     <div>
       { mealOrDrink ? (

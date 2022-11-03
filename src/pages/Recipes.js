@@ -87,7 +87,6 @@ function Recipes({ location: { pathname } }) {
     if (pathname === '/meals') {
       const req = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
       const data = await req.json();
-      console.log(data);
       const resultsSearchArray = [];
       data.meals.forEach((element, index) => {
         if (index < limitedIndex12) {
@@ -111,7 +110,6 @@ function Recipes({ location: { pathname } }) {
     const { target } = event;
     // data.meals.filter((element) => element === param)
     if (test === target.innerHTML) {
-      // console.log('oi');
       allInitialRecipes();
       setTest('');
     }
@@ -122,7 +120,6 @@ function Recipes({ location: { pathname } }) {
       // fetchFirstMeals();
       allInitialRecipes();
       fetchCategoriesMeals();
-      // console.log('terminou aqui');
     } else {
       // fetchFirstDrinks();
       allInitialRecipes();
