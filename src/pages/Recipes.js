@@ -75,13 +75,11 @@ function Recipes({ location: { pathname } }) {
     const req = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
     const data = await req.json();
     setInitialReqCategory(data);
-    // setSync(true);"Chicken"
   };
   const fetchCategoriesDrinks = async () => {
     const req = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
     const data = await req.json();
     setInitialReqCategory(data);
-    // setSync(true);
   };
 
   const allInitialRecipes = async () => {
@@ -122,6 +120,7 @@ function Recipes({ location: { pathname } }) {
       // fetchFirstMeals();
       allInitialRecipes();
       fetchCategoriesMeals();
+      console.log('terminou aqui');
     } else {
       // fetchFirstDrinks();
       allInitialRecipes();
