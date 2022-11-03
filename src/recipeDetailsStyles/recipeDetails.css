@@ -22,11 +22,11 @@
 }
 
 .btn-start-recipe {
+  background-color: red;
   bottom: 0px;
   position: fixed;
-  width: 100%;
-  background-color: red;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  width: 100%;
 }
