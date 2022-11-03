@@ -7,7 +7,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import Context from '../context/Context';
 
-function RecipesInProgress() {
+function RecipeInProgress() {
   const {
     tudoTrue, dataMeals, dataDrinks, dataFavorite, hasClicked, icon, dataFinish,
     setHasClicked, setIcon, setDataFavorite, setDataFinish, setDataDrinks, setDataMeals,
@@ -156,9 +156,9 @@ function RecipesInProgress() {
               } }
             >
               Compartilhar
-              { hasClicked
-          && <span>Link copied!</span>}
             </button>
+            { hasClicked
+          && <span>Link copied!</span>}
             <input
               type="image"
               data-testid="favorite-btn"
@@ -223,9 +223,9 @@ function RecipesInProgress() {
               } }
             >
               Compartilhar
-              { hasClicked
-          && <span>Link copied!</span>}
             </button>
+            { hasClicked
+          && <span>Link copied!</span>}
             <input
               type="image"
               data-testid="favorite-btn"
@@ -247,4 +247,4 @@ function RecipesInProgress() {
     </div>
   );
 }
-export default RecipesInProgress;
+export default RecipeInProgress;

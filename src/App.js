@@ -3,12 +3,11 @@ import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Recipes from './pages/Recipes';
 import RecipeDetails from './pages/RecipeDetails';
-import RecipesInProgress from './pages/RecipesInProgress';
+import RecipeInProgress from './pages/RecipeInProgress';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Provider from './context/Provider';
-import Footer from './pages/Footer';
 import './App.css';
 
 function App() {
@@ -23,18 +22,17 @@ function App() {
         <Route
           exact
           path="/meals/:id/in-progress"
-          component={ RecipesInProgress }
+          component={ RecipeInProgress }
         />
         <Route
           exact
           path="/drinks/:id/in-progress"
-          component={ RecipesInProgress }
+          component={ RecipeInProgress }
         />
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
       </Switch>
-      <Footer />
     </Provider>
   );
 }
