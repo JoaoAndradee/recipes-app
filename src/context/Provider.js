@@ -17,7 +17,7 @@ function Provider({ children }) {
   const [icon, setIcon] = useState(false);
   const [dataFavorite, setDataFavorite] = useState([]);
   const [dataFinish, setDataFinish] = useState([]);
-
+  const [iconWithStorage, setIconWithStorage] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -68,6 +68,7 @@ function Provider({ children }) {
     hasClicked,
     icon,
     dataFinish,
+    iconWithStorage,
     handleEmail,
     handlePassword,
     handleInputSearch,
@@ -81,6 +82,7 @@ function Provider({ children }) {
     setIcon,
     setDataFavorite,
     setDataFinish,
+    setIconWithStorage,
   }), [
     email,
     password,
@@ -97,6 +99,7 @@ function Provider({ children }) {
     icon,
     dataFavorite,
     dataFinish,
+    iconWithStorage,
   ]);
 
   return (

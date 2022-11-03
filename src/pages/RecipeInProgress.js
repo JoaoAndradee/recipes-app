@@ -17,6 +17,11 @@ function RecipesInProgress() {
   const mealOrDrink = pathname.includes('meals');
   useEffect(() => { setDataMeals(meals); }, []);
   useEffect(() => { setDataDrinks(drinks); }, []);
+  useEffect(() => {
+    if (localStorage.favoriteRecipes !== undefined) {
+      setIcon(true);
+    }
+  });
   const arrTagsMeal = (dataMeals.strTags ? dataMeals.strTags.split(',') : []);
   const arrTagsDrink = (dataDrinks.strTags ? dataDrinks.strTags.split(',') : []);
   const arrTags = mealOrDrink ? arrTagsMeal : arrTagsDrink;
@@ -30,6 +35,7 @@ function RecipesInProgress() {
     return arrCategory;
   }
   teste();
+
   const handleClickFavorite = () => {
     if (!icon) {
       setDataFavorite([{
@@ -172,7 +178,6 @@ function RecipesInProgress() {
           </div>
         </div>
       ) : (
-        // DRINKS ---------------------------------------------------------------------------------------------
         <div>
           <img
             src={ dataDrinks.strDrinkThumb }
@@ -199,7 +204,6 @@ function RecipesInProgress() {
                     texto={ item2 }
                   />
                 </li>
-
               ))
             }
           </ul>

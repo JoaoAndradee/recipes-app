@@ -6,7 +6,7 @@ import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 
 describe('Testando a página de progresso de receita', () => {
-  it('lalala', () => {
+  it('verificando se a checkbox funciona', () => {
     const { history } = renderWithRouter(<App />);
     act(() => {
       history.push('/drinks/51213/in-progress');
@@ -15,7 +15,7 @@ describe('Testando a página de progresso de receita', () => {
     userEvent.click(btnCheckIngredient1);
   });
 });
-it('lalala2', async () => {
+it('verifica se o botão de favorito funciona', async () => {
   const { history } = renderWithRouter(<App />);
   act(() => {
     history.push('/meals/52771/in-progress');
