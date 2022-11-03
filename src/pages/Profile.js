@@ -11,7 +11,7 @@ function Profile() {
 
   const getLocalStorage = () => {
     const user = JSON.parse(localStorage.getItem('user'));
-    return user ? user.email : ''
+    return user ? user.email : '';
   };
 
   const emailLocalStorage = getLocalStorage();
