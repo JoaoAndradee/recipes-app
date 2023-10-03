@@ -1,0 +1,33 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 80px;
+}
+
+.profileIcon {
+  margin-bottom: 25px;
+}
+
+.profileText {
+  color: #41197f;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.buttonProfile {
+  align-items: center;
+  background-color: white;
+  border: 0;
+  display: flex;
+  justify-content: baseline;
+  margin: 20px;
+  text-transform: uppercase;
+  width: 200px;
+}
+
+.imgsTeste {
+  margin-right: 20px;
+}
